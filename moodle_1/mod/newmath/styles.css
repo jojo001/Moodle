@@ -1,0 +1,11 @@
+
+.mod_newmath_listbuttons input[type="submit"]{
+	width: 400px;
+	/*float: left;*/
+}
+
+.mod_newmath_actionbuttons {
+	display: flex;
+	float: right;
+}
+
