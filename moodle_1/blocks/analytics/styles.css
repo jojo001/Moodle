@@ -1,0 +1,291 @@
+.block_analytics .current-level {
+    margin: 10px auto;
+    text-align: center;
+    font-size: 4em;
+    height: 100px;
+    width: 100px;
+    color: #fff;
+    line-height: 110px;
+    background: url([[pix:block_analytics|10]]) no-repeat;
+}
+
+.block_analytics .level-1 {
+    background-image: url([[pix:block_analytics|1]]);
+}
+.block_analytics .level-2 {
+    background-image: url([[pix:block_analytics|2]]);
+}
+.block_analytics .level-3 {
+    background-image: url([[pix:block_analytics|3]]);
+}
+.block_analytics .level-4 {
+    background-image: url([[pix:block_analytics|4]]);
+}
+.block_analytics .level-5 {
+    background-image: url([[pix:block_analytics|5]]);
+}
+.block_analytics .level-6 {
+    background-image: url([[pix:block_analytics|6]]);
+}
+.block_analytics .level-7 {
+    background-image: url([[pix:block_analytics|7]]);
+}
+.block_analytics .level-8 {
+    background-image: url([[pix:block_analytics|8]]);
+}
+.block_analytics .level-9 {
+    background-image: url([[pix:block_analytics|9]]);
+}
+.block_analytics .level-10 {
+    background-image: url([[pix:block_analytics|10]]);
+}
+
+.block_analytics .level-badge {
+    background: none;
+    height: auto;
+    width: auto;
+}
+.block_analytics .level-badge img {
+    width: 100px;
+}
+
+.block_analytics .description {
+    font-size: 0.9em;
+}
+.block_analytics .footer {
+    font-size: 0.9em;
+}
+
+/** Use over defined class name to re-use it through the block pages. */
+.block_analytics-level-progress {
+    margin: 0 auto;
+    max-width: 200px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #ccc;
+    position: relative;
+    margin-bottom: 10px;
+}
+.block_analytics-level-progress .bar {
+    background-color: green;
+    border-radius: 5px;
+    height: 25px;
+}
+.block_analytics-level-progress .txt {
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+/** Using !important because of super-qualified rules to bypass. */
+.path-blocks-analytics table .highlight > td{
+    background-color: #D9EDF7 !important;
+}
+
+/**
+ * Like notice.
+ */
+.block-analytics-notices .close {
+    display: none;
+}
+.block-analytics-notices .dismiss-action {
+    float: right;
+}
+.dir-rtl .block-analytics-notices .dismiss-action {
+    float: left;
+}
+
+/**
+ * Notification dialogue.
+ */
+
+.block_analytics-notification-hidden {
+    display: none;
+}
+.block_analytics-notification .moodle-dialogue-bd,
+.block_analytics-notification .moodle-dialogue-ft {
+    text-align: center !important;
+}
+.block_analytics-notification .level-headline {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.block_analytics-notification .moodle-dialogue-ft button {
+    /* Helps centering the button in the dialogue */
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/**
+ * Rule picker dialogue.
+ */
+.block_analytics-rulepicker-hidden {
+    display: none;
+}
+.block_analytics-rulepicker-content {
+    text-align: center;
+}
+
+/**
+ * Rules pages.
+ *
+ * Note: We find the very first rule using .filter-rules > .rule
+ */
+.block-analytics-filters-wrapper ul {
+    list-style: none;
+}
+.block-analytics-filters-wrapper p,
+.block-analytics-filters-wrapper ul,
+.block-analytics-filters-wrapper ul.filters-list,  /** Made more specific for RTL. */
+.block-analytics-filters-wrapper input[type],
+.block-analytics-filters-wrapper select {
+    margin: 0;
+}
+.block-analytics-filters-wrapper .filter-rules {
+    margin-top: 5px;
+    margin-left: 20px;
+}
+.block-analytics-filters-wrapper .filter {
+    padding: 8px 4px;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+}
+.block-analytics-filters-wrapper .filter-add {
+    margin: 10px 0;
+}
+.block-analytics-filters-wrapper .rule-rules {
+    margin-left: 35px;
+}
+.block-analytics-filters-wrapper .filter-rules > .rule {
+    border: 0;
+    padding-left: 0;
+}
+.block-analytics-filters-wrapper .filter-rules > .rule::before {
+    border: 0;
+}
+.block-analytics-filters-wrapper .filter-rules > .rule > .rule-rules {
+    margin-left: 20px;
+}
+.block-analytics-filters-wrapper .filter-rules > .rule > .rule-definition {
+    line-height: 40px;
+    padding-left: 5px;
+}
+.block-analytics-filters-wrapper .rule-type-ruleset,
+.block-analytics-filters-wrapper .rule-type-ruleset .rule-rules > .rule:first-child {
+    padding-top: 5px;
+}
+.block-analytics-filters-wrapper .rule-type-ruleset > .rule-definition {
+    background-color: #f1f1f1;
+    padding-bottom: 2px;
+}
+.block-analytics-filters-wrapper .rule-rules .rule {
+    position: relative;
+    border-left: 1px dotted #ccc;
+    padding-left: 15px;
+    min-height: 40px;
+    line-height: 40px;
+}
+.block-analytics-filters-wrapper .rule-rules .rule::before {
+    content: "";
+    border-top: 1px dotted #ccc;
+    display: block;
+    width: 15px;
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+.block-analytics-filters-wrapper .rule-type-ruleset .rule-rules > .rule:first-child::before,
+.block-analytics-filters-wrapper .rule.rule-type-ruleset::before {
+    top: 25px;
+}
+.block-analytics-filters-wrapper .rule-add {
+    position: relative;
+    padding: 10px 17px;
+}
+.block-analytics-filters-wrapper .rule-add::before,
+.block-analytics-filters-wrapper .rule-rules .rule:last-child::before {
+    content: "";
+    border-top: 0;
+    border-left: 1px dotted #ccc;
+    border-bottom: 1px dotted #ccc;
+    display: block;
+    width: 15px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.block-analytics-filters-wrapper .rule-rules .rule:last-child {
+    border: 0;
+}
+.block-analytics-filters-wrapper .rule-move,
+.block-analytics-filters-wrapper .filter-move {
+    cursor: move;
+}
+.block-analytics-filters-wrapper .filter-rules > .rule > .rule-definition .rule-delete,
+.block-analytics-filters-wrapper .filter-rules > .rule > .rule-definition .rule-move {
+    /** Hide the move/delete button on the top rule. */
+    display: none;
+}
+
+/** Readonly filters. */
+.block-analytics-filters-wrapper .filters-readonly .filter {
+    padding: 10px;
+}
+.block-analytics-filters-wrapper .filters-readonly .filter-rules > .rule > .rule-definition,
+.block-analytics-filters-wrapper .filters-readonly .rule-rules .rule {
+    min-height: 30px;
+    line-height: 30px;
+}
+.block-analytics-filters-wrapper .filters-readonly .filter-rules > .rule > .rule-definition {
+    padding: 0 10px;
+}
+.block-analytics-filters-wrapper .filters-readonly .rule-type-ruleset .rule-rules > .rule:first-child::before,
+.block-analytics-filters-wrapper .filters-readonly .rule.rule-type-ruleset::before {
+    top: 20px;
+}
+.block-analytics-filters-wrapper .filters-readonly .rule-rules .rule::before {
+    top: 15px;
+}
+.block-analytics-filters-wrapper .filters-readonly .rule-rules .rule:last-child::before {
+    top: 0;
+    height: 15px;
+}
+
+/** RTL styles. */
+.dir-rtl .block-analytics-filters-wrapper .filter-rules {
+    margin-left: 0;
+    margin-right: 20px;
+}
+.dir-rtl .block-analytics-filters-wrapper .rule-rules {
+    margin-left: 0;
+    margin-right: 40px;
+}
+.dir-rtl .block-analytics-filters-wrapper .filter-rules > .rule > .rule-rules {
+    margin-left: 0;
+    margin-right: 20px;
+}
+.dir-rtl .block-analytics-filters-wrapper .filter-rules > .rule > .rule-definition {
+    padding-left: 0;
+    padding-right: 5px;
+}
+.dir-rtl .block-analytics-filters-wrapper .rule-rules .rule {
+    border-left: 0;
+    border-right: 1px dotted #ccc;
+    padding-right: 15px;
+    padding-left: 0;
+}
+.dir-rtl .block-analytics-filters-wrapper .rule-rules .rule::before {
+    right: 0;
+}
+.dir-rtl .block-analytics-filters-wrapper .rule-add::before,
+.dir-rtl .block-analytics-filters-wrapper .rule-rules .rule:last-child::before {
+    border-left: 0;
+    border-right: 1px dotted #ccc;
+    right: 0;
+}

@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,17 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * My Grades Block.
+ * Quiz random summary report upgrade script.
  *
- * @package   block_my_grades
- * @author    Karen Holland <kholland.dev@gmail.com>, Mei Jin, Jiajia Chen
+ * @package   quiz_randomsummary
+ * @copyright 2015 Dan Marsden http://danmarsden.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname']='My Graw11111111111edsdfgsdfgses report';
-$string['my_grades']='My Greeeeeeeeeeeeeeedes';
-$string['blocktitle']='My Gradwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwes';
-$string['blockstring']='My Grades stvvvvvvvvvvvvvvvvvvvring';
-$string['gradetblheader_course'] = 'Couraaaaaaaaa11111111111aaaaaaaaaase';
-$string['gradetblheader_grade'] = 'Gradrrrrrrrrrrrrrrrrrrrrre';
-$string['noenrolments'] = 'This user has not yet been enrolled in any courses';
+
+defined('MOODLE_INTERNAL') || die();
+
+
+/**
+ * Quiz random summary report upgrade function.
+ * @param number $oldversion
+ */
+function xmldb_quiz_randomsummary_upgrade($oldversion) {
+    global $CFG, $DB;
+
+    $dbman = $DB->get_manager();
+
+    // Moodle v2.9.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    return true;
+}

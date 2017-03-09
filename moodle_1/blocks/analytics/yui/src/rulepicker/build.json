@@ -1,0 +1,10 @@
+{
+  "name": "moodle-block_analytics-rulepicker",
+  "builds": {
+    "moodle-block_analytics-rulepicker": {
+      "jsfiles": [
+        "rulepicker.js"
+      ]
+    }
+  }
+}

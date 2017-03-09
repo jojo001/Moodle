@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,17 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * My Grades Block.
+ * Cache definitions.
  *
- * @package   block_my_grades
- * @author    Karen Holland <kholland.dev@gmail.com>, Mei Jin, Jiajia Chen
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    block_analytics
+ * @copyright  2014 Frédéric Massart - FMCorz.net
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname']='My Graw11111111111edsdfgsdfgses report';
-$string['my_grades']='My Greeeeeeeeeeeeeeedes';
-$string['blocktitle']='My Gradwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwes';
-$string['blockstring']='My Grades stvvvvvvvvvvvvvvvvvvvring';
-$string['gradetblheader_course'] = 'Couraaaaaaaaa11111111111aaaaaaaaaase';
-$string['gradetblheader_grade'] = 'Gradrrrrrrrrrrrrrrrrrrrrre';
-$string['noenrolments'] = 'This user has not yet been enrolled in any courses';
+defined('MOODLE_INTERNAL') || die();
+
+$definitions = array(
+    'filters' => array(
+        'mode' => cache_store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'staticacceleration' => true
+    ),
+
+    'ruleevent_eventslist' => array(
+        'mode' => cache_store::MODE_APPLICATION,
+        'simplekeys' => true
+    )
+);

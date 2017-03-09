@@ -1,0 +1,17 @@
+{
+    "name": "fmcorz/moodle-block_analytics",
+    "type": "moodle-block",
+    "description": "Moodle plugin to gamify students' learning eanalyticserience.",
+    "homepage": "https://github.com/FMCorz/moodle-block_analytics",
+    "license": "GPL-3.0+",
+    "require": {
+        "composer/installers": "*"
+    },
+    "extra": {
+        "installer-name": "analytics"
+    },
+    "support": {
+        "issues": "https://github.com/FMCorz/moodle-block_analytics/issues",
+        "source": "https://github.com/FMCorz/moodle-block_analytics"
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "moodle-block_analytics-filters": {
+    "requires": [
+        "base",
+        "node",
+        "moodle-core-dragdrop",
+        "moodle-block_analytics-rulepicker"
+    ]
+  }
+}

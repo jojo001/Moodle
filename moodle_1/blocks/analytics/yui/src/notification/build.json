@@ -1,0 +1,10 @@
+{
+  "name": "moodle-block_analytics-notification",
+  "builds": {
+    "moodle-block_analytics-notification": {
+      "jsfiles": [
+        "notification.js"
+      ]
+    }
+  }
+}
