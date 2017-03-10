@@ -44,11 +44,11 @@ class block_ab_renderer extends plugin_renderer_base {
             html_writer::link(
                 new moodle_url('/blocks/ab/report.php', array('courseid' => $courseid)),
                 get_string('navreport', 'block_ab'))
-            . ' - '
-            . html_writer::link(
-                new moodle_url('/blocks/ab/config.php', array('courseid' => $courseid)),
-                get_string('navsettings', 'block_ab'))
-            , array('class' => 'admin-links')
+            // . ' - '
+            // . html_writer::link(
+            //     new moodle_url('/blocks/ab/config.php', array('courseid' => $courseid)),
+            //     get_string('navsettings', 'block_ab'))
+            // , array('class' => 'admin-links')
         );
     }
 
