@@ -1,0 +1,17 @@
+{
+    "name": "fmcorz/moodle-block_ab",
+    "type": "moodle-block",
+    "description": "Moodle plugin to gamify students' learning eaberience.",
+    "homepage": "https://github.com/FMCorz/moodle-block_ab",
+    "license": "GPL-3.0+",
+    "require": {
+        "composer/installers": "*"
+    },
+    "extra": {
+        "installer-name": "ab"
+    },
+    "support": {
+        "issues": "https://github.com/FMCorz/moodle-block_ab/issues",
+        "source": "https://github.com/FMCorz/moodle-block_ab"
+    }
+}
