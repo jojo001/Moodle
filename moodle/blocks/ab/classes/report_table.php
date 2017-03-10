@@ -79,7 +79,7 @@ class block_ab_report_table extends table_sql {
 
         // Get all the users that are enrolled and can earn XP.
         $ids = array();
-        $users = get_enrolled_users($context, 'block/ab:earnab', $groupid);
+        $users = get_enrolled_users($context,  $groupid);
         foreach ($users as $user) {
             $ids[$user->id] = $user->id;
         }
@@ -136,15 +136,15 @@ class block_ab_report_table extends table_sql {
      * @param stdClass $row Table row.
      * @return string Output produced.
      */
-    protected function col_actions($row) {
-        global $OUTPUT;
-        $url = new moodle_url('/blocks/ab/report.php', array(
-            'courseid' => $this->abmanager->get_courseid(),
-            'action' => 'edit',
-            'userid' => $row->id
-        ));
-        return $OUTPUT->action_icon($url, new pix_icon('t/edit', get_string('edit')));
-    }
+    // protected function col_actions($row) {
+    //     global $OUTPUT;
+    //     $url = new moodle_url('/blocks/ab/report.php', array(
+    //         'courseid' => $this->abmanager->get_courseid(),
+    //         'action' => 'edit',
+    //         'userid' => $row->id
+    //     ));
+    //     return $OUTPUT->action_icon($url, new pix_icon('t/edit', get_string('edit')));              //setting button
+    // }
 
     /**
      * Formats the column level.
@@ -162,16 +162,16 @@ class block_ab_report_table extends table_sql {
      * @param stdClass $row Table row.
      * @return string Output produced.
      */
-    // protected function col_progress($row) {                                             //FOUR FIELD
-    //     static $fields = null;
-    //     if ($fields === null) {
-    //         $fields = array_flip(block_ab_ladder_table::$abfields);
-    //     }
+    protected function col_progress($row) {                                             //FOUR FIELD the progress bar
+        static $fields = null;
+        if ($fields === null) {
+            $fields = array_flip(block_ab_ladder_table::$abfields);
+        }
 
-    //     $record = (object) array_intersect_key((array) $row, $fields);
-    //     $progress = $this->abmanager->get_progress_for_user($row->id, $record);
-    //     return $this->aboutput->progress_bar($progress);
-    // }
+        $record = (object) array_intersect_key((array) $row, $fields);
+        $progress = $this->abmanager->get_progress_for_user($row->id, $record);
+        return $this->aboutput->progress_bar($progress);
+    }
 
     /**
      * Formats the column XP.

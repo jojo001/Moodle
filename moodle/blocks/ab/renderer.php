@@ -236,25 +236,25 @@ class block_ab_renderer extends plugin_renderer_base {
      * @param array $options
      * @return string
      */
-    public function render_block_ab_rule($rule, $options) {
-        static $i = 0;
-        $iseditable = !empty($options['iseditable']);
-        $basename = isset($options['basename']) ? $options['basename'] : '';
-        if ($iseditable) {
-            $content = $this->render(new pix_icon('i/dragdrop', get_string('movecondition', 'block_ab'), '',
-                array('class' => 'iconsmall rule-move')));
-            $content .= $rule->get_form($basename);
-            $content .= $this->action_link('#', '', null, array('class' => 'rule-delete'),
-                new pix_icon('t/delete', get_string('deletecondition', 'block_ab'), '', array('class' => 'iconsmall')));
-        } else {
-            $content = s($rule->get_description());
-        }
-        $o = '';
-        $o .= html_writer::start_tag('li', array('class' => 'rule rule-type-rule'));
-        $o .= html_writer::tag('p', $content, array('class' => 'rule-definition', 'data-basename' => $basename));
-        $o .= html_writer::end_tag('li');
-        return $o;
-    }
+    // public function render_block_ab_rule($rule, $options) {
+    //     static $i = 0;
+    //     $iseditable = !empty($options['iseditable']);
+    //     $basename = isset($options['basename']) ? $options['basename'] : '';
+    //     if ($iseditable) {
+    //         $content = $this->render(new pix_icon('i/dragdrop', get_string('movecondition', 'block_ab'), '',
+    //             array('class' => 'iconsmall rule-move')));
+    //         $content .= $rule->get_form($basename);
+    //         $content .= $this->action_link('#', '', null, array('class' => 'rule-delete'),
+    //             new pix_icon('t/delete', get_string('deletecondition', 'block_ab'), '', array('class' => 'iconsmall')));
+    //     } else {
+    //         $content = s($rule->get_description());
+    //     }
+    //     $o = '';
+    //     $o .= html_writer::start_tag('li', array('class' => 'rule rule-type-rule'));
+    //     $o .= html_writer::tag('p', $content, array('class' => 'rule-definition', 'data-basename' => $basename));
+    //     $o .= html_writer::end_tag('li');
+    //     return $o;
+    // }
 
     /**
      * Renders a block XP ruleset.
@@ -262,39 +262,39 @@ class block_ab_renderer extends plugin_renderer_base {
      * @param array $options
      * @return string
      */
-    public function render_block_ab_ruleset($ruleset, $options) {
-        static $i = 0;
-        $iseditable = !empty($options['iseditable']);
-        $basename = isset($options['basename']) ? $options['basename'] : '';
-        $o = '';
-        $o .= html_writer::start_tag('li', array('class' => 'rule rule-type-ruleset'));
-        if ($iseditable) {
-            $content = $this->render(new pix_icon('i/dragdrop', get_string('movecondition', 'block_ab'), '',
-                array('class' => 'iconsmall rule-move')));
-            $content .= $ruleset->get_form($basename);
-            $content .= $this->action_link('#', '', null, array('class' => 'rule-delete'),
-                new pix_icon('t/delete', get_string('deletecondition', 'block_ab'), '', array('class' => 'iconsmall')));
-        } else {
-            $content = s($ruleset->get_description());
-        }
-        $o .= html_writer::tag('p', $content, array('class' => 'rule-definition', 'data-basename' => $basename));
-        $o .= html_writer::start_tag('ul', array('class' => 'rule-rules', 'data-basename' => $basename . '[rules]'));
-        foreach ($ruleset->get_rules() as $rule) {
-            if ($iseditable) {
-                $options['basename'] = $basename . '[rules][' . $i++ . ']';
-            }
-            $o .= $this->render($rule, $options);
-        }
-        if ($iseditable) {
-            $o .= html_writer::start_tag('li', array('class' => 'rule-add'));
-            $o .= $this->action_link('#', get_string('addacondition', 'block_ab'), null, null,
-                new pix_icon('t/add', '', '', array('class' => 'iconsmall')));
-            $o .= html_writer::end_tag('li');
-        }
-        $o .= html_writer::end_tag('ul');
-        $o .= html_writer::end_tag('li');
-        return $o;
-    }
+    // public function render_block_ab_ruleset($ruleset, $options) {
+    //     static $i = 0;
+    //     $iseditable = !empty($options['iseditable']);
+    //     $basename = isset($options['basename']) ? $options['basename'] : '';
+    //     $o = '';
+    //     $o .= html_writer::start_tag('li', array('class' => 'rule rule-type-ruleset'));
+    //     if ($iseditable) {
+    //         $content = $this->render(new pix_icon('i/dragdrop', get_string('movecondition', 'block_ab'), '',
+    //             array('class' => 'iconsmall rule-move')));
+    //         $content .= $ruleset->get_form($basename);
+    //         $content .= $this->action_link('#', '', null, array('class' => 'rule-delete'),
+    //             new pix_icon('t/delete', get_string('deletecondition', 'block_ab'), '', array('class' => 'iconsmall')));
+    //     } else {
+    //         $content = s($ruleset->get_description());
+    //     }
+    //     $o .= html_writer::tag('p', $content, array('class' => 'rule-definition', 'data-basename' => $basename));
+    //     $o .= html_writer::start_tag('ul', array('class' => 'rule-rules', 'data-basename' => $basename . '[rules]'));
+    //     foreach ($ruleset->get_rules() as $rule) {
+    //         if ($iseditable) {
+    //             $options['basename'] = $basename . '[rules][' . $i++ . ']';
+    //         }
+    //         $o .= $this->render($rule, $options);
+    //     }
+    //     if ($iseditable) {
+    //         $o .= html_writer::start_tag('li', array('class' => 'rule-add'));
+    //         $o .= $this->action_link('#', get_string('addacondition', 'block_ab'), null, null,
+    //             new pix_icon('t/add', '', '', array('class' => 'iconsmall')));
+    //         $o .= html_writer::end_tag('li');
+    //     }
+    //     $o .= html_writer::end_tag('ul');
+    //     $o .= html_writer::end_tag('li');
+    //     return $o;
+    // }
 
     /**
      * Returns the links for the students.

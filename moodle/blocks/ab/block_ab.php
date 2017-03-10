@@ -133,15 +133,15 @@ class block_ab extends block_base {
         //     $this->content->text .= $renderer->description(get_string('participatetolevelup', 'block_ab'));
         // }
 
-        $this->content->footer .= $renderer->student_links($manager->get_courseid(),
-            $manager->can_view_ladder_page(), $manager->can_view_infos_page()); //IMPORTANT DO NOT DELETE
+        //$this->content->footer .= $renderer->student_links($manager->get_courseid());
+            // $manager->can_view_ladder_page(), $manager->can_view_infos_page()); //IMPORTANT DO NOT DELETE
 
         if ($canedit) {
             $this->content->footer .= $renderer->admin_links($manager->get_courseid());
-            if (!$manager->get_config('enabled')) {
-                $this->content->footer .= html_writer::tag('p',
-                    html_writer::tag('small', get_string('abgaindisabled', 'block_ab')), array('class' => 'alert alert-warning'));
-            }
+            // if (!$manager->get_config('enabled')) {
+            //     $this->content->footer .= html_writer::tag('p',
+            //         html_writer::tag('small', get_string('abgaindisabled', 'block_ab')), array('class' => 'alert alert-warning'));
+            // }
         }
 
        

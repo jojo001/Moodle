@@ -233,50 +233,50 @@ class block_ab_manager {
     }
 
 
-    /**
-     * Capture an event.
-     *
-     * @param \core\event\base $event The event.
-     * @return void
-     */
-    public function capture_event(\core\event\base $event) {
-        global $CFG, $DB;
+    // /**
+    //  * Capture an event.
+    //  *
+    //  * @param \core\event\base $event The event.
+    //  * @return void
+    //  */
+    // public function capture_event(\core\event\base $event) {
+    //     global $CFG, $DB;
 
-        if ($CFG->block_ab_context != CONTEXT_SYSTEM && $event->courseid != $this->courseid) {
-            throw new coding_exception('Event course ID does not match block course ID');
-        }
+    //     if ($CFG->block_ab_context != CONTEXT_SYSTEM && $event->courseid != $this->courseid) {
+    //         throw new coding_exception('Event course ID does not match block course ID');
+    //     }
 
-        // The capture has not been enabled yet.
-        if (!$this->is_enabled()) {
-            return;
-        }
+    //     // The capture has not been enabled yet.
+    //     if (!$this->is_enabled()) {
+    //         return;
+    //     }
 
-        // Check if the user can capture this event, anti cheater method.
-        if (!$this->can_capture_event($event)) {
-            return;
-        }
+    //     // Check if the user can capture this event, anti cheater method.
+    //     if (!$this->can_capture_event($event)) {
+    //         return;
+    //     }
 
-        $userid = $event->userid;
-        $points = $this->get_ab_from_event($event);
+    //     $userid = $event->userid;
+    //     $points = $this->get_ab_from_event($event);
 
-        // No need to go through the following if the user did not gain XP.
-        if ($points > 0) {
-            if ($DB->count_records('block_ab', array('courseid' => $this->courseid, 'userid' => $userid)) > 0) {
-                $DB->execute('UPDATE {block_ab} SET ab = ab + :ab WHERE courseid = :courseid AND userid = :userid',
-                    array('ab' => $points, 'courseid' => $this->courseid, 'userid' => $userid));
-            } else {
-                $record = new stdClass();
-                $record->courseid = $this->courseid;
-                $record->userid = $userid;
-                $record->ab = $points;
-                $DB->insert_record('block_ab', $record);
-            }
-            $this->update_user_level($userid);
-        }
+    //     // No need to go through the following if the user did not gain XP.
+    //     if ($points > 0) {
+    //         if ($DB->count_records('block_ab', array('courseid' => $this->courseid, 'userid' => $userid)) > 0) {
+    //             $DB->execute('UPDATE {block_ab} SET ab = ab + :ab WHERE courseid = :courseid AND userid = :userid',
+    //                 array('ab' => $points, 'courseid' => $this->courseid, 'userid' => $userid));
+    //         } else {
+    //             $record = new stdClass();
+    //             $record->courseid = $this->courseid;
+    //             $record->userid = $userid;
+    //             $record->ab = $points;
+    //             $DB->insert_record('block_ab', $record);
+    //         }
+    //         $this->update_user_level($userid);
+    //     }
 
-        // Log the event.
-        $this->log_event($event->eventname, $userid, $points);
-    }
+    //     // Log the event.
+    //     $this->log_event($event->eventname, $userid, $points);
+    // }
 
     /**
      * Get an instance of the manager.

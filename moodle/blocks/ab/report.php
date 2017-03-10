@@ -82,21 +82,21 @@ echo $OUTPUT->heading($strcoursereport);
 echo $renderer->navigation($manager, 'report');
 echo $renderer->notices($manager);
 
-// Editing a user.
-if ($action == 'edit' && !empty($userid)) {
-    $user = core_user::get_user($userid);
-    echo $OUTPUT->heading(fullname($user), 3);
+// // Editing a user.
+// if ($action == 'edit' && !empty($userid)) {
+//     $user = core_user::get_user($userid);
+//     echo $OUTPUT->heading(fullname($user), 3);
 
-    $progress = $manager->get_progress_for_user($userid);
-    $form = new block_ab_user_edit_form($url->out(false));
-    $form->set_data(array('userid' => $userid, 'level' => $progress->level, 'ab' => $progress->ab));
+//     $progress = $manager->get_progress_for_user($userid);
+//     $form = new block_ab_user_edit_form($url->out(false));
+//     $form->set_data(array('userid' => $userid, 'level' => $progress->level, 'ab' => $progress->ab));
 
-    if ($data = $form->get_data()) {
-        $manager->reset_user_ab($userid, $data->ab);
-    } else if (!$form->is_cancelled()) {
-        $form->display();
-    }
-}
+//     if ($data = $form->get_data()) {
+//         $manager->reset_user_ab($userid, $data->ab);
+//     } else if (!$form->is_cancelled()) {
+//         $form->display();
+//     }
+// }
 
 groups_print_course_menu($manager->get_course(), $url);
 
@@ -106,14 +106,14 @@ $table->define_baseurl($url);
 
 echo $table->out(20, true);
 
-if (empty($group)) {
-    $strreset = get_string('resetcoursedata', 'block_ab');
-} else {
-    $strreset = get_string('resetgroupdata', 'block_ab');
-}
-echo html_writer::tag('p',
-    $OUTPUT->single_button(new moodle_url($url, array('resetdata' => 1, 'sesskey' => sesskey(), 'group' => $group)),
-        $strreset, 'get')
-);
+// if (empty($group)) {
+//     $strreset = get_string('resetcoursedata', 'block_ab');
+// } else {
+//     $strreset = get_string('resetgroupdata', 'block_ab');
+// }
+// echo html_writer::tag('p',
+//     $OUTPUT->single_button(new moodle_url($url, array('resetdata' => 1, 'sesskey' => sesskey(), 'group' => $group)),
+//         $strreset, 'get')
+// );
 
 echo $OUTPUT->footer();
