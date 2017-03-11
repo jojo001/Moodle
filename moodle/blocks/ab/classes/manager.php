@@ -126,7 +126,138 @@ class block_ab_manager {
         $this->courseid = $courseid;
     }
 
+  
     /**
+     * Returns whether or not the current user can manage.
+     *
+     * @return bool
+     */
+    public function can_manage() {
+        return has_capability('block/ab:addinstance', $this->context);
+    }
+
+    /**
+     * Returns whether or not the current user can view the block and its pages.
+     *
+     * @return bool
+     */
+    public function can_view() {
+        return has_capability('block/ab:view', $this->context) || $this->can_manage();
+    }
+
+    /**
+     * Returns whether or not the current user can view the infos page.
+     *
+     * @return bool
+     */
+    public function can_view_infos_page() {
+        if (!$this->get_config('enableinfos')) {
+            return $this->can_manage();
+        }
+        return $this->can_view();
+    }
+
+    // /**
+    //  * Returns whether or not the current user can view the infos page.
+    //  *
+    //  * @return bool
+    //  */
+    // public function can_view_ladder_page() {
+    //     if (!$this->get_config('enableladder')) {
+    //         return $this->can_manage();
+    //     }
+    //     return $this->can_view();
+    // }
+
+/**
+     * Get an instance of the manager.
+     *
+     * The courseid parameter will be ignored when the block was set to be used on the system.
+     * It is easier to do it this way than handling the course ID paramter from everywhere we
+     * need to get the manager.
+     *
+     * @param int $courseid The course ID.
+     * @param bool $forcereload Force the reload of the singleton, to invalidate local cache.
+     * @return block_ab_manager The instance of the manager.
+     */
+    public static function get($courseid, $forcereload = false) {
+        global $CFG;
+
+        // When the block was set up for the whole site we attach it to the site course.
+        if ($CFG->block_ab_context == CONTEXT_SYSTEM) {
+            $courseid = SITEID;
+        }
+
+        $courseid = intval($courseid);
+        if ($forcereload || !isset(self::$instances[$courseid])) {
+            self::$instances[$courseid] = new block_ab_manager($courseid);
+        }
+        return self::$instances[$courseid];
+    }
+
+       /**
+     * Get the context related to the manager.
+     *
+     * The context and course IDs here can be a bit confusing. When the plugin is set to act in
+     * courses ($CFG->block_ab_context == CONTEXT_COURSE), then the context of the manager
+     * should be the course context. However, when block_ab_progress is set to CONTEXT_SYSTEM
+     * then we have to rely on the system context, not the context of the site course. The reason
+     * behind this is that we need to get the context parent of where we are going to use the block
+     * and in this case the site/front page context is nto the right one as it's a child of the
+     * system context, and not parent of the courses.
+     *
+     * Also read the nodes of {@link self::get_courseid()}.
+     *
+     * @return context
+     */
+    public function get_context() {
+        return $this->context;
+    }
+
+    /**
+     * Returns the current course object.
+     *
+     * The purpose of this is to provide an efficient way to retrieve the current course.
+     *
+     * /!\ The course object MUST NOT be modified!
+     *
+     * @return object Course record.
+     */
+    public function get_course() {
+        global $DB, $PAGE;
+        if (!isset($this->course)) {
+            $this->course = get_course($this->courseid, false);
+        }
+        return $this->course;
+    }
+
+    /**
+     * Return the current course ID.
+     *
+     * When the block is set to act on the whole site ($CFG->block_ab_context == CONTEXT_SYSTEM),
+     * then we will use the SITEID as course ID. We cannot use 0 because there are some logic here
+     * and there that assumes that the course exists. In any other scenario we use the course ID
+     * of the course the block was added to.
+     *
+     * Also read the nodes of {@link self::get_context()}.
+     *
+     * @return int The course ID.
+     */
+    public function get_courseid() {
+        return $this->courseid;
+    }
+
+    /**
+     * Is the block enabled on the course?
+     *
+     * @return boolean True if enabled.
+     */
+    public function is_enabled() {
+        return $this->get_config('enabled');
+    }
+    }
+
+      /**
      * Check wether or not the user can capture this event.
      *
      * This method is there to prevent a user from refreshing a page
@@ -190,49 +321,6 @@ class block_ab_manager {
     //     return true;
     // }
 
-    /**
-     * Returns whether or not the current user can manage.
-     *
-     * @return bool
-     */
-    public function can_manage() {
-        return has_capability('block/ab:addinstance', $this->context);
-    }
-
-    /**
-     * Returns whether or not the current user can view the block and its pages.
-     *
-     * @return bool
-     */
-    public function can_view() {
-        return has_capability('block/ab:view', $this->context) || $this->can_manage();
-    }
-
-    /**
-     * Returns whether or not the current user can view the infos page.
-     *
-     * @return bool
-     */
-    public function can_view_infos_page() {
-        if (!$this->get_config('enableinfos')) {
-            return $this->can_manage();
-        }
-        return $this->can_view();
-    }
-
-    /**
-     * Returns whether or not the current user can view the infos page.
-     *
-     * @return bool
-     */
-    public function can_view_ladder_page() {
-        if (!$this->get_config('enableladder')) {
-            return $this->can_manage();
-        }
-        return $this->can_view();
-    }
-
-
     // /**
     //  * Capture an event.
     //  *
@@ -278,276 +366,198 @@ class block_ab_manager {
     //     $this->log_event($event->eventname, $userid, $points);
     // }
 
-    /**
-     * Get an instance of the manager.
-     *
-     * The courseid parameter will be ignored when the block was set to be used on the system.
-     * It is easier to do it this way than handling the course ID paramter from everywhere we
-     * need to get the manager.
-     *
-     * @param int $courseid The course ID.
-     * @param bool $forcereload Force the reload of the singleton, to invalidate local cache.
-     * @return block_ab_manager The instance of the manager.
-     */
-    public static function get($courseid, $forcereload = false) {
-        global $CFG;
 
-        // When the block was set up for the whole site we attach it to the site course.
-        if ($CFG->block_ab_context == CONTEXT_SYSTEM) {
-            $courseid = SITEID;
-        }
 
-        $courseid = intval($courseid);
-        if ($forcereload || !isset(self::$instances[$courseid])) {
-            self::$instances[$courseid] = new block_ab_manager($courseid);
-        }
-        return self::$instances[$courseid];
-    }
 
-    /**
-     * Get the configuration.
-     *
-     * @param string $name The config to get.
-     * @return mixed Return either an object, or a value.
-     */
-    public function get_config($name = null) {
-        global $DB;
-        if (empty($this->config)) {
-            $record = $DB->get_record('block_ab_config', array('courseid' => $this->courseid));
-            if (!$record) {
-                $record = (object) self::$configdefaults;
-                $record->id = 0;
-                $record->courseid = $this->courseid;
-            }
-            $this->config = $record;
-        }
-        if ($name !== null) {
-            return $this->config->$name;
-        }
-        return $this->config;
-    }
+    // /**
+    //  * Get the configuration.
+    //  *
+    //  * @param string $name The config to get.
+    //  * @return mixed Return either an object, or a value.
+    //  */
+    // public function get_config($name = null) {
+    //     global $DB;
+    //     if (empty($this->config)) {
+    //         $record = $DB->get_record('block_ab_config', array('courseid' => $this->courseid));
+    //         if (!$record) {
+    //             $record = (object) self::$configdefaults;
+    //             $record->id = 0;
+    //             $record->courseid = $this->courseid;
+    //         }
+    //         $this->config = $record;
+    //     }
+    //     if ($name !== null) {
+    //         return $this->config->$name;
+    //     }
+    //     return $this->config;
+    // }
 
-    /**
-     * Get the context related to the manager.
-     *
-     * The context and course IDs here can be a bit confusing. When the plugin is set to act in
-     * courses ($CFG->block_ab_context == CONTEXT_COURSE), then the context of the manager
-     * should be the course context. However, when block_ab_progress is set to CONTEXT_SYSTEM
-     * then we have to rely on the system context, not the context of the site course. The reason
-     * behind this is that we need to get the context parent of where we are going to use the block
-     * and in this case the site/front page context is nto the right one as it's a child of the
-     * system context, and not parent of the courses.
-     *
-     * Also read the nodes of {@link self::get_courseid()}.
-     *
-     * @return context
-     */
-    public function get_context() {
-        return $this->context;
-    }
 
-    /**
-     * Returns the current course object.
-     *
-     * The purpose of this is to provide an efficient way to retrieve the current course.
-     *
-     * /!\ The course object MUST NOT be modified!
-     *
-     * @return object Course record.
-     */
-    public function get_course() {
-        global $DB, $PAGE;
-        if (!isset($this->course)) {
-            $this->course = get_course($this->courseid, false);
-        }
-        return $this->course;
-    }
+    // /**
+    //  * Return the default configuration.
+    //  *
+    //  * @return stdClass Default config.
+    //  */
+    // public static function get_default_config() {
+    //     return (object) self::$configdefaults;
+    // }
 
-    /**
-     * Return the current course ID.
-     *
-     * When the block is set to act on the whole site ($CFG->block_ab_context == CONTEXT_SYSTEM),
-     * then we will use the SITEID as course ID. We cannot use 0 because there are some logic here
-     * and there that assumes that the course exists. In any other scenario we use the course ID
-     * of the course the block was added to.
-     *
-     * Also read the nodes of {@link self::get_context()}.
-     *
-     * @return int The course ID.
-     */
-    public function get_courseid() {
-        return $this->courseid;
-    }
+    // /**
+    //  * Get the filter manager.
+    //  *
+    //  * @return block_ab_filter_manager
+    //  */
+    // public function get_filter_manager() {
+    //     if (!$this->filtermanager) {
+    //         $this->filtermanager = new block_ab_filter_manager($this);
+    //     }
+    //     return $this->filtermanager;
+    // }
 
-    /**
-     * Return the default configuration.
-     *
-     * @return stdClass Default config.
-     */
-    public static function get_default_config() {
-        return (object) self::$configdefaults;
-    }
+    
+    // public function get_level_count() {
+    //     return $this->get_config('levels');
+    // }
 
-    /**
-     * Get the filter manager.
-     *
-     * @return block_ab_filter_manager
-     */
-    public function get_filter_manager() {
-        if (!$this->filtermanager) {
-            $this->filtermanager = new block_ab_filter_manager($this);
-        }
-        return $this->filtermanager;
-    }
+    // /**
+    //  * Return the level at which we are at $ab.
+    //  *
+    //  * @param int $ab XP acquired.
+    //  * @return int The level.
+    //  */
+    // public function get_level_from_ab($ab) {
+    //     $levels = $this->get_levels();
 
-    /**
-     * Return the number of levels in the course.
-     *
-     * @return int Level count.
-     */
-    public function get_level_count() {
-        return $this->get_config('levels');
-    }
+    //     $level = 1;
+    //     for ($i = $level; $i <= count($levels); $i++) {
+    //         if ($levels[$i] <= $ab) {
+    //             $level = $i;
+    //         } else {
+    //             break;
+    //         }
+    //     }
 
-    /**
-     * Return the level at which we are at $ab.
-     *
-     * @param int $ab XP acquired.
-     * @return int The level.
-     */
-    public function get_level_from_ab($ab) {
-        $levels = $this->get_levels();
+    //     return $level;
+    // }
 
-        $level = 1;
-        for ($i = $level; $i <= count($levels); $i++) {
-            if ($levels[$i] <= $ab) {
-                $level = $i;
-            } else {
-                break;
-            }
-        }
+    // /**
+    //  * Get the levels and the eaberience points needed.
+    //  *
+    //  * @return array level => ab required.
+    //  */
+    // public function get_levels() {
+    //     if (empty($this->levels)) {
+    //         $eventsdata = $this->get_levels_data('levelsdata');
+    //         $this->levels = $eventsdata['ab'];
+    //     }
+    //     return $this->levels;
+    // }
 
-        return $level;
-    }
+    // /**
+    //  * Get the levels data.
+    //  *
+    //  * @return array of levels data.
+    //  */
+    // public function get_levels_data() {
+    //     $levelsdata = $this->get_config('levelsdata');
+    //     if ($levelsdata) {
+    //         $levelsdata = json_decode($levelsdata, true);
+    //         if ($levelsdata) {
+    //             return $levelsdata;
+    //         }
+    //     }
 
-    /**
-     * Get the levels and the eaberience points needed.
-     *
-     * @return array level => ab required.
-     */
-    public function get_levels() {
-        if (empty($this->levels)) {
-            $eventsdata = $this->get_levels_data('levelsdata');
-            $this->levels = $eventsdata['ab'];
-        }
-        return $this->levels;
-    }
+    //     return array(
+    //         'usealgo' => 1,
+    //         'base' => block_ab_manager::DEFAULT_BASE,
+    //         'coef' => block_ab_manager::DEFAULT_COEF,
+    //         'ab' => self::get_levels_with_algo($this->get_level_count()),
+    //         'desc' => array()
+    //     );
+    // }
 
-    /**
-     * Get the levels data.
-     *
-     * @return array of levels data.
-     */
-    public function get_levels_data() {
-        $levelsdata = $this->get_config('levelsdata');
-        if ($levelsdata) {
-            $levelsdata = json_decode($levelsdata, true);
-            if ($levelsdata) {
-                return $levelsdata;
-            }
-        }
+    // /**
+    //  * Get the levels and their XP based on a simple algorithm.
+    //  *
+    //  * @param int $levelcount The number of levels.
+    //  * @param int $base The base XP required.
+    //  * @param float $coef The coefficient between levels.
+    //  * @return array level => ab required.
+    //  */
+    // public static function get_levels_with_algo($levelcount, $base = self::DEFAULT_BASE, $coef = self::DEFAULT_COEF) {
+    //     $list = array();
+    //     for ($i = 1; $i <= $levelcount; $i++) {
+    //         if ($i == 1) {
+    //             $list[$i] = 0;
+    //         } else if ($i == 2) {
+    //             $list[$i] = $base;
+    //         } else {
+    //             $list[$i] = $base + round($list[$i - 1] * $coef);
+    //         }
+    //     }
+    //     return $list;
+    // }
 
-        return array(
-            'usealgo' => 1,
-            'base' => block_ab_manager::DEFAULT_BASE,
-            'coef' => block_ab_manager::DEFAULT_COEF,
-            'ab' => self::get_levels_with_algo($this->get_level_count()),
-            'desc' => array()
-        );
-    }
+    // /**
+    //  * Get progress renderable of user.
+    //  *
+    //  * @param int $userid The user ID.
+    //  * @param stdClass $record The prefetched record, if any.
+    //  * @return block_ab_progress The progress renderable.
+    //  */
+    // public function get_progress_for_user($userid, stdClass $record = null) {
+    //     global $DB;
 
-    /**
-     * Get the levels and their XP based on a simple algorithm.
-     *
-     * @param int $levelcount The number of levels.
-     * @param int $base The base XP required.
-     * @param float $coef The coefficient between levels.
-     * @return array level => ab required.
-     */
-    public static function get_levels_with_algo($levelcount, $base = self::DEFAULT_BASE, $coef = self::DEFAULT_COEF) {
-        $list = array();
-        for ($i = 1; $i <= $levelcount; $i++) {
-            if ($i == 1) {
-                $list[$i] = 0;
-            } else if ($i == 2) {
-                $list[$i] = $base;
-            } else {
-                $list[$i] = $base + round($list[$i - 1] * $coef);
-            }
-        }
-        return $list;
-    }
+    //     if (!$record) {
+    //         $record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid));
+    //     }
 
-    /**
-     * Get progress renderable of user.
-     *
-     * @param int $userid The user ID.
-     * @param stdClass $record The prefetched record, if any.
-     * @return block_ab_progress The progress renderable.
-     */
-    public function get_progress_for_user($userid, stdClass $record = null) {
-        global $DB;
+    //     if (!$record) {
+    //         $record = new stdClass();
+    //         $record->ab = 0;
+    //         $record->lvl = 1;
+    //         $record->userid = $userid;
+    //         $record->courseid = $this->courseid;
+    //     }
 
-        if (!$record) {
-            $record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid));
-        }
+    //     // Manipulation.
+    //     $record->contextid = $this->context->id;
+    //     unset($record->id);
+    //     $record->level = $record->lvl;
+    //     unset($record->lvl);
+    //     $params = (array) $record;
 
-        if (!$record) {
-            $record = new stdClass();
-            $record->ab = 0;
-            $record->lvl = 1;
-            $record->userid = $userid;
-            $record->courseid = $this->courseid;
-        }
+    //     $params['levelab'] = $this->get_ab_for_level($record->level);
+    //     $params['nextlevelab'] = $this->get_ab_for_level($record->level + 1);
+    //     $progress = new block_ab_progress($params);
 
-        // Manipulation.
-        $record->contextid = $this->context->id;
-        unset($record->id);
-        $record->level = $record->lvl;
-        unset($record->lvl);
-        $params = (array) $record;
+    //     return $progress;
+    // }
 
-        $params['levelab'] = $this->get_ab_for_level($record->level);
-        $params['nextlevelab'] = $this->get_ab_for_level($record->level + 1);
-        $progress = new block_ab_progress($params);
+    // /**
+    //  * Get the eaberience points generated by an event.
+    //  *
+    //  * @param \core\event\base $event The event.
+    //  * @return int XP points.
+    //  */
+    // public function get_ab_from_event(\core\event\base $event) {
+    //     $fm = $this->get_filter_manager();
+    //     return $fm->get_points_for_event($event);
+    // }
 
-        return $progress;
-    }
-
-    /**
-     * Get the eaberience points generated by an event.
-     *
-     * @param \core\event\base $event The event.
-     * @return int XP points.
-     */
-    public function get_ab_from_event(\core\event\base $event) {
-        $fm = $this->get_filter_manager();
-        return $fm->get_points_for_event($event);
-    }
-
-    /**
-     * Get the amount of XP required for a level.
-     *
-     * @param int $level The level.
-     * @return int|false The amount of XP required, or false there is no such level.
-     */
-    public function get_ab_for_level($level) {                        //IMPORTANT
-        $levels = $this->get_levels();
-        if (isset($levels[$level])) {
-            return $levels[$level];
-        }
-        return false;
-    }
+    // /**
+    //  * Get the amount of XP required for a level.
+    //  *
+    //  * @param int $level The level.
+    //  * @return int|false The amount of XP required, or false there is no such level.
+    //  */
+    // public function get_ab_for_level($level) {                        //IMPORTANT
+    //     $levels = $this->get_levels();
+    //     if (isset($levels[$level])) {
+    //         return $levels[$level];
+    //     }
+    //     return false;
+    // }
 
     /**
      * Check if the user has levelled up since the last time we reset the status.
@@ -558,198 +568,190 @@ class block_ab_manager {
      * @param boolean $reset The reset flag, when true the levelled up flag will be reset.
      * @return boolean
      */
-    public function has_levelled_up($userid, $reset = true) {
-        $prefkey = self::USERPREF_NOTIFY . $this->courseid;
-        $levelledup = get_user_preferences($prefkey, false, $userid);
-        if ($levelledup && $reset) {
-            unset_user_preference($prefkey);
-        }
-        return $levelledup;
-    }
+    // public function has_levelled_up($userid, $reset = true) {
+    //     $prefkey = self::USERPREF_NOTIFY . $this->courseid;
+    //     $levelledup = get_user_preferences($prefkey, false, $userid);
+    //     if ($levelledup && $reset) {
+    //         unset_user_preference($prefkey);
+    //     }
+    //     return $levelledup;
+    // }
 
-    /**
-     * Is the block enabled on the course?
-     *
-     * @return boolean True if enabled.
-     */
-    public function is_enabled() {
-        return $this->get_config('enabled');
-    }
 
-    /**
-     * Log a captured event.
-     *
-     * @param string $eventname The event name.
-     * @param int $userid The user ID.
-     * @param int $ab The XP earned with that event.
-     * @return void
-     */
-    protected function log_event($eventname, $userid, $ab) {
-        global $DB;
+    // /**
+    //  * Log a captured event.
+    //  *
+    //  * @param string $eventname The event name.
+    //  * @param int $userid The user ID.
+    //  * @param int $ab The XP earned with that event.
+    //  * @return void
+    //  */
+    // protected function log_event($eventname, $userid, $ab) {
+    //     global $DB;
 
-        if ($this->get_config('enablelog')) {
-            $record = new stdClass();
-            $record->courseid = $this->courseid;
-            $record->userid = $userid;
-            $record->eventname = $eventname;
-            $record->ab = $ab;
-            $record->time = time();
-            try {
-                $DB->insert_record('block_ab_log', $record);
-            } catch (dml_exception $e) {
-                // Ignore.
-            }
-        }
-    }
+    //     if ($this->get_config('enablelog')) {
+    //         $record = new stdClass();
+    //         $record->courseid = $this->courseid;
+    //         $record->userid = $userid;
+    //         $record->eventname = $eventname;
+    //         $record->ab = $ab;
+    //         $record->time = time();
+    //         try {
+    //             $DB->insert_record('block_ab_log', $record);
+    //         } catch (dml_exception $e) {
+    //             // Ignore.
+    //         }
+    //     }
+    // }
 
-    /**
-     * Purge the logs according to preferences.
-     *
-     * @return void
-     */
-    public function purge_log() {
-        global $DB;
-        $keeplogs = $this->get_config('keeplogs');
-        if (!$keeplogs) {
-            return;
-        } else {
-            // The cron is set to run only once a day, so no need to test the last time it was purged here.
-            $DB->delete_records_select('block_ab_log', 'time < :time', array(
-                'time' => time() - ($keeplogs * DAYSECS)
-            ));
-        }
-    }
+    // /**
+    //  * Purge the logs according to preferences.
+    //  *
+    //  * @return void
+    //  */
+    // public function purge_log() {
+    //     global $DB;
+    //     $keeplogs = $this->get_config('keeplogs');
+    //     if (!$keeplogs) {
+    //         return;
+    //     } else {
+    //         // The cron is set to run only once a day, so no need to test the last time it was purged here.
+    //         $DB->delete_records_select('block_ab_log', 'time < :time', array(
+    //             'time' => time() - ($keeplogs * DAYSECS)
+    //         ));
+    //     }
+    // }
 
-    /**
-     * Clears the static caches of this class.
-     *
-     * Usage reserved to PHP Unit.
-     *
-     * @return void
-     */
-    public static function purge_static_caches() {
-        if (!PHPUNIT_TEST) {
-            return;
-        }
-        self::$instances = array();
-    }
+    // /**
+    //  * Clears the static caches of this class.
+    //  *
+    //  * Usage reserved to PHP Unit.
+    //  *
+    //  * @return void
+    //  */
+    // public static function purge_static_caches() {
+    //     if (!PHPUNIT_TEST) {
+    //         return;
+    //     }
+    //     self::$instances = array();
+    // }
 
-    /**
-     * Recalculte the levels of all the users in the course.
-     *
-     * @param int $courseid The course ID.
-     * @return void
-     */
-    public function recalculate_levels() {
-        global $DB;
-        $users = $DB->get_recordset('block_ab', array('courseid' => $this->courseid), '', 'userid, lvl, ab');
+    // /**
+    //  * Recalculte the levels of all the users in the course.
+    //  *
+    //  * @param int $courseid The course ID.
+    //  * @return void
+    //  */
+    // public function recalculate_levels() {
+    //     global $DB;
+    //     $users = $DB->get_recordset('block_ab', array('courseid' => $this->courseid), '', 'userid, lvl, ab');
 
-        // Disable events.
-        $oldtriggerevents = $this->triggereevents;
-        $this->triggereevents = false;
+    //     // Disable events.
+    //     $oldtriggerevents = $this->triggereevents;
+    //     $this->triggereevents = false;
 
-        foreach ($users as $user) {
-            $this->update_user_level($user->userid, $user->ab, $user->lvl);
-        }
+    //     foreach ($users as $user) {
+    //         $this->update_user_level($user->userid, $user->ab, $user->lvl);
+    //     }
 
-        // Restore value.
-        $this->triggereevents = $oldtriggerevents;
+    //     // Restore value.
+    //     $this->triggereevents = $oldtriggerevents;
 
-        $users->close();
-    }
+    //     $users->close();
+    // }
 
-    /**
-     * Reset all the data.
-     *
-     * @param int $groupid The group ID.
-     * @return void
-     */
-    public function reset_data($groupid = 0) {
-        global $DB;
+    // /**
+    //  * Reset all the data.
+    //  *
+    //  * @param int $groupid The group ID.
+    //  * @return void
+    //  */
+    // public function reset_data($groupid = 0) {
+    //     global $DB;
 
-        // Delete XP records.
-        $sql = "DELETE FROM {block_ab} WHERE courseid = :courseid";
-        $params = array('courseid' => $this->courseid);
-        if ($groupid) {
-            $sql .= " AND userid IN
-                  (SELECT gm.userid
-                     FROM {groups_members} gm
-                    WHERE gm.groupid = :groupid)";
-            $params['groupid'] = $groupid;
-        }
-        $DB->execute($sql, $params);
+    //     // Delete XP records.
+    //     $sql = "DELETE FROM {block_ab} WHERE courseid = :courseid";
+    //     $params = array('courseid' => $this->courseid);
+    //     if ($groupid) {
+    //         $sql .= " AND userid IN
+    //               (SELECT gm.userid
+    //                  FROM {groups_members} gm
+    //                 WHERE gm.groupid = :groupid)";
+    //         $params['groupid'] = $groupid;
+    //     }
+    //     $DB->execute($sql, $params);
 
-        // Delete logs.
-        $sql = "DELETE FROM {block_ab_log} WHERE courseid = :courseid";
-        $params = array('courseid' => $this->courseid);
-        if ($groupid) {
-            $sql .= " AND userid IN
-                  (SELECT gm.userid
-                     FROM {groups_members} gm
-                    WHERE gm.groupid = :groupid)";
-            $params['groupid'] = $groupid;
-        }
-        $DB->execute($sql, $params);
-    }
+    //     // Delete logs.
+    //     $sql = "DELETE FROM {block_ab_log} WHERE courseid = :courseid";
+    //     $params = array('courseid' => $this->courseid);
+    //     if ($groupid) {
+    //         $sql .= " AND userid IN
+    //               (SELECT gm.userid
+    //                  FROM {groups_members} gm
+    //                 WHERE gm.groupid = :groupid)";
+    //         $params['groupid'] = $groupid;
+    //     }
+    //     $DB->execute($sql, $params);
+    // }
 
-    /**
-     * Reset the XP of a user to something.
-     *
-     * This will automatically recalculate the user's level, but will
-     * not trigger an event in case of level up or down.
-     *
-     * @param int $userid The user ID.
-     * @param int $ab The amount of XP.
-     * @return void
-     */
-    public function reset_user_ab($userid, $ab = 0) {
-        global $DB;
+    // /**
+    //  * Reset the XP of a user to something.
+    //  *
+    //  * This will automatically recalculate the user's level, but will
+    //  * not trigger an event in case of level up or down.
+    //  *
+    //  * @param int $userid The user ID.
+    //  * @param int $ab The amount of XP.
+    //  * @return void
+    //  */
+    // public function reset_user_ab($userid, $ab = 0) {
+    //     global $DB;
 
-        if ($record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid))) {
-            $record->ab = $ab;
-            $DB->update_record('block_ab', $record);
-        } else {
-            $record = new stdClass();
-            $record->courseid = $this->courseid;
-            $record->userid = $userid;
-            $record->ab = $ab;
-            $record->lvl = 1;
-            $DB->insert_record('block_ab', $record);
-        }
+    //     if ($record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid))) {
+    //         $record->ab = $ab;
+    //         $DB->update_record('block_ab', $record);
+    //     } else {
+    //         $record = new stdClass();
+    //         $record->courseid = $this->courseid;
+    //         $record->userid = $userid;
+    //         $record->ab = $ab;
+    //         $record->lvl = 1;
+    //         $DB->insert_record('block_ab', $record);
+    //     }
 
-        $oldtriggerevents = $this->triggereevents;
-        $this->triggereevents = false;
-        $this->update_user_level($userid, $record->ab, $record->lvl);
-        $this->triggereevents = $oldtriggerevents;
-    }
+    //     $oldtriggerevents = $this->triggereevents;
+    //     $this->triggereevents = false;
+    //     $this->update_user_level($userid, $record->ab, $record->lvl);
+    //     $this->triggereevents = $oldtriggerevents;
+    // }
 
-    /**
-     * Update the configuration.
-     *
-     * @param stdClass $data An object containing the data.
-     * @return void
-     */
-    public function update_config($data) {
-        global $DB;
-        $config = $this->get_config();
-        foreach ((array) $data as $key => $value) {
-            if (in_array($key, array('id', 'courseid'))) {
-                continue;
-            } elseif (property_exists($config, $key)) {
-                if (in_array($key, array('levelsdata'))) {
-                    // Some keys needs to be JSON encoded.
-                    $value = json_encode($value);
-                }
-                $config->{$key} = $value;
-            }
-        }
-        if (empty($config->id)) {
-            $config->id = $DB->insert_record('block_ab_config', $config);
-        } else {
-            $DB->update_record('block_ab_config', $config);
-        }
-        $this->config = $config;
-    }
+    // /**
+    //  * Update the configuration.
+    //  *
+    //  * @param stdClass $data An object containing the data.
+    //  * @return void
+    //  */
+    // public function update_config($data) {
+    //     global $DB;
+    //     $config = $this->get_config();
+    //     foreach ((array) $data as $key => $value) {
+    //         if (in_array($key, array('id', 'courseid'))) {
+    //             continue;
+    //         } elseif (property_exists($config, $key)) {
+    //             if (in_array($key, array('levelsdata'))) {
+    //                 // Some keys needs to be JSON encoded.
+    //                 $value = json_encode($value);
+    //             }
+    //             $config->{$key} = $value;
+    //         }
+    //     }
+    //     if (empty($config->id)) {
+    //         $config->id = $DB->insert_record('block_ab_config', $config);
+    //     } else {
+    //         $DB->update_record('block_ab_config', $config);
+    //     }
+    //     $this->config = $config;
+    // }
 
     /**
      * Update the level of a user.
@@ -762,39 +764,39 @@ class block_ab_manager {
      * @param int $lvl The known user level.
      * @return void
      */
-    public function update_user_level($userid, $ab = null, $lvl = null) {
-        global $DB;
+    // public function update_user_level($userid, $ab = null, $lvl = null) {
+    //     global $DB;
 
-        if ($ab === null || $lvl === null) {
-            $record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid), 'ab,lvl');
-            if (!$record) {
-                return;
-            }
-            $ab = $record->ab;
-            $lvl = $record->lvl;
-        }
+    //     // if ($ab === null || $lvl === null) {
+    //     //     $record = $DB->get_record('block_ab', array('courseid' => $this->courseid, 'userid' => $userid), 'ab,lvl');
+    //     //     if (!$record) {
+    //     //         return;
+    //     //     }
+    //     //     $ab = $record->ab;
+    //     //     $lvl = $record->lvl;
+    //     // }
 
-        $level = $this->get_level_from_ab($ab);
-        if ($level != $lvl) {
-            // Level up!
-            $DB->set_field('block_ab', 'lvl', $level, array('courseid' => $this->courseid, 'userid' => $userid));
-            if ($this->triggereevents) {
-                $params = array(
-                    'context' => $this->context,
-                    'relateduserid' => $userid,
-                    'other' => array(
-                        'level' => $level
-                    )
-                );
-                $event = \block_ab\event\user_leveledup::create($params);
-                $event->trigger();
-            }
-        }
+    //     // $level = $this->get_level_from_ab($ab);
+    //     // if ($level != $lvl) {
+    //     //     // Level up!
+    //     //     $DB->set_field('block_ab', 'lvl', $level, array('courseid' => $this->courseid, 'userid' => $userid));
+    //     //     if ($this->triggereevents) {
+    //     //         $params = array(
+    //     //             'context' => $this->context,
+    //     //             'relateduserid' => $userid,
+    //     //             'other' => array(
+    //     //                 'level' => $level
+    //     //             )
+    //     //         );
+    //     //         $event = \block_ab\event\user_leveledup::create($params);
+    //     //         $event->trigger();
+    //     //     }
+    //     // }
 
-        if ($level > $lvl && $this->get_config('enablelevelupnotif')) {
-            // Level up, and we want to notify the user.
-            set_user_preference(self::USERPREF_NOTIFY . $this->courseid, 1, $userid);
-        }
-    }
+    //     // if ($level > $lvl && $this->get_config('enablelevelupnotif')) {
+    //     //     // Level up, and we want to notify the user.
+    //     //     set_user_preference(self::USERPREF_NOTIFY . $this->courseid, 1, $userid);
+    //     // }
+    // }
 
-}
+

@@ -33,7 +33,7 @@ $confirm = optional_param('confirm', 0, PARAM_INT);
 
 require_login($courseid);
 $manager = block_ab_manager::get($courseid);
-$context = $manager->get_context();
+//$context = $manager->get_context();
 
 if (!$manager->can_manage()) {
     throw new moodle_exception('nopermissions', '', '', 'can_manage');
@@ -79,8 +79,9 @@ if ($resetdata && confirm_sesskey()) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strcoursereport);
 
-echo $renderer->navigation($manager, 'report');
-echo $renderer->notices($manager);
+// echo $renderer->navigation($manager, 'report');
+// echo $renderer->navigation($manager, 'log');
+//echo $renderer->notices($manager);
 
 // // Editing a user.
 // if ($action == 'edit' && !empty($userid)) {

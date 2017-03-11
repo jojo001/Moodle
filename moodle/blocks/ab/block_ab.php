@@ -46,20 +46,20 @@ class block_ab extends block_base {
         return array('course' => true);
     }
 
-    /**
-     * Cron.
-     *
-     * @return void
-     */
-    public function cron() {
-        global $DB;
-        $courseids = $DB->get_fieldset_sql('SELECT DISTINCT(courseid) FROM {block_ab}', array());
-        foreach ($courseids as $courseid) {
-            $manager = block_ab_manager::get($courseid);
-            $manager->purge_log();
-        }
-        return true;
-    }
+    // /**
+    //  * Cron.
+    //  *
+    //  * @return void
+    //  */
+    // public function cron() {
+    //     global $DB;
+    //     $courseids = $DB->get_fieldset_sql('SELECT DISTINCT(courseid) FROM {block_ab}', array());
+    //     foreach ($courseids as $courseid) {
+    //         $manager = block_ab_manager::get($courseid);
+    //         $manager->purge_log();
+    //     }
+    //     return true;
+    // }
 
  
     /**
@@ -105,6 +105,7 @@ class block_ab extends block_base {
 
         if (isset($this->content)) {
             return $this->content;
+            
         }
 
         $this->content = new stdClass();
@@ -137,13 +138,13 @@ class block_ab extends block_base {
         //     // $manager->can_view_ladder_page(),
         //      $manager->can_view_infos_page()); 
 
-        if ($canedit) {
+        // if ($canedit) {
             $this->content->footer .= $renderer->admin_links($manager->get_courseid());
             // if (!$manager->get_config('enabled')) {
             //     $this->content->footer .= html_writer::tag('p',
             //         html_writer::tag('small', get_string('abgaindisabled', 'block_ab')), array('class' => 'alert alert-warning'));
             // }
-        }
+        // }
 
        
 

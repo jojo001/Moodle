@@ -38,10 +38,10 @@ class block_ab_report_table extends table_sql {
     public $useridfield = 'id';
 
     /** @var block_ab_manager XP Manager. */
-    protected $abmanager = null;
+   // protected $abmanager = null;
 
     /** @var block_ab_manager XP Manager. */
-    protected $aboutput = null;
+   // protected $aboutput = null;
 
     /**
      * Constructor.
@@ -55,8 +55,8 @@ class block_ab_report_table extends table_sql {
         parent::__construct($uniqueid);
 
         // Block XP stuff.
-        $this->abmanager = block_ab_manager::get($courseid);
-        $this->aboutput = $PAGE->get_renderer('block_ab');
+        //$this->abmanager = block_ab_manager::get($courseid);
+       // $this->aboutput = $PAGE->get_renderer('block_ab');
         $context = context_course::instance($courseid);
 
         // Define columns.
@@ -68,7 +68,7 @@ class block_ab_report_table extends table_sql {
             'progress',
             'actions'
         ));
-        $this->define_headers(array(
+        $this->define_headers(array(     //header table
             '',
             get_string('fullname'),
             get_string('level', 'block_ab'),
@@ -153,7 +153,9 @@ class block_ab_report_table extends table_sql {
      * @return string Output produced.
      */
     protected function col_lvl($row) {
-        return isset($row->lvl) ? $row->lvl : 1;
+          global $OUTPUT;
+        context_helper::preload_from_record($row);                   //GRADE
+        return $OUTPUT->user_picture($row);
     }
 
     /**
@@ -163,14 +165,16 @@ class block_ab_report_table extends table_sql {
      * @return string Output produced.
      */
     protected function col_progress($row) {                                             //FOUR FIELD the progress bar
-        static $fields = null;
-        if ($fields === null) {
-            $fields = array_flip(block_ab_ladder_table::$abfields);
-        }
+        // static $fields = null;
+        // if ($fields === null) {
+        //     //$fields = array_flip(block_ab_ladder_table::$abfields);
+        // }
 
-        $record = (object) array_intersect_key((array) $row, $fields);
-        $progress = $this->abmanager->get_progress_for_user($row->id, $record);
-        return $this->aboutput->progress_bar($progress);
+        // $record = (object) array_intersect_key((array) $row, $fields);
+        // $progress = $this->abmanager->get_progress_for_user($row->id, $record);
+        // return $this->aboutput->progress_bar($progress);
+                return isset($row->lvl) ? $row->lvl : 1;
+
     }
 
     /**

@@ -92,79 +92,79 @@ class block_ab_renderer extends plugin_renderer_base {
     //     return html_writer::tag('p', $string, array('class' => 'description'));
     // }
 
-    /**
-     * Return the notices.
-     *
-     * @param block_ab_manager $manager The manager.
-     * @return string The notices.
-     */
-    public function notices($manager) {   //MUST HAVE
-        global $CFG;
-        $o = '';
+    // /**
+    //  * Return the notices.
+    //  *
+    //  * @param block_ab_manager $manager The manager.
+    //  * @return string The notices.
+    //  */
+    // public function notices($manager) {   //MUST HAVE
+    //     global $CFG;
+    //     $o = '';
 
-        if (!$manager->can_manage()) {
-            return $o;
-        }
+    //     if (!$manager->can_manage()) {
+    //         return $o;
+    //     }
 
-        // if (!get_user_preferences(block_ab_manager::USERPREF_NOTICES, false)) {
-        //     require_once($CFG->libdir . '/ajax/ajaxlib.php');
-        //     user_preference_allow_ajax_update(block_ab_manager::USERPREF_NOTICES, PARAM_BOOL);
+    //     // if (!get_user_preferences(block_ab_manager::USERPREF_NOTICES, false)) {
+    //     //     require_once($CFG->libdir . '/ajax/ajaxlib.php');
+    //     //     user_preference_allow_ajax_update(block_ab_manager::USERPREF_NOTICES, PARAM_BOOL);
 
-        //     $moodleorgurl = new moodle_url('https://moodle.org/plugins/view.php?plugin=block_ab');
-        //     $githuburl = new moodle_url('https://github.com/FMCorz/moodle-block_ab');
-        //     $text = get_string('likenotice', 'block_ab', (object) array(
-        //         'moodleorg' => $moodleorgurl->out(),
-        //         'github' => $githuburl->out()
-        //     ));
+    //     //     $moodleorgurl = new moodle_url('https://moodle.org/plugins/view.php?plugin=block_ab');
+    //     //     $githuburl = new moodle_url('https://github.com/FMCorz/moodle-block_ab');
+    //     //     $text = get_string('likenotice', 'block_ab', (object) array(
+    //     //         'moodleorg' => $moodleorgurl->out(),
+    //     //         'github' => $githuburl->out()
+    //     //     ));
 
-        //     $id = html_writer::random_id();
-        //     $this->page->requires->js_init_call("Y.one('.block-ab-rocks').on('click', function(e) {
-        //         e.preventDefault();
-        //         M.util.set_user_preference('" . block_ab_manager::USERPREF_NOTICES . "', 1);
-        //         Y.one('.block-ab-notices').hide();
-        //     });");
+    //     //     $id = html_writer::random_id();
+    //     //     $this->page->requires->js_init_call("Y.one('.block-ab-rocks').on('click', function(e) {
+    //     //         e.preventDefault();
+    //     //         M.util.set_user_preference('" . block_ab_manager::USERPREF_NOTICES . "', 1);
+    //     //         Y.one('.block-ab-notices').hide();
+    //     //     });");
 
-        //     $icon = new pix_icon('t/delete', get_string('dismissnotice', 'block_ab'));
-        //     $actionicon = $this->action_icon(new moodle_url($this->page->url), $icon, null, array('class' => 'block-ab-rocks'));
-        //     $text .= html_writer::div($actionicon, 'dismiss-action');
-        //     $o .= html_writer::div($this->notification($text, 'notifysuccess'), 'block-ab-notices');
-        // }
+    //     //     $icon = new pix_icon('t/delete', get_string('dismissnotice', 'block_ab'));
+    //     //     $actionicon = $this->action_icon(new moodle_url($this->page->url), $icon, null, array('class' => 'block-ab-rocks'));
+    //     //     $text .= html_writer::div($actionicon, 'dismiss-action');
+    //     //     $o .= html_writer::div($this->notification($text, 'notifysuccess'), 'block-ab-notices');
+    //     // }
 
-        return $o;
-    }
+    //     return $o;
+    // }
 
-    /**
-     * Outputs the navigation.
-     *
-     * @param block_ab_manager $manager The manager.
-     * @param string $page The page we are on.
-     * @return string The navigation.
-     */
-    public function navigation($manager, $page) {
-        $tabs = array();
-        $courseid = $manager->get_courseid();
+    // /**
+    //  * Outputs the navigation.
+    //  *
+    //  * @param block_ab_manager $manager The manager.
+    //  * @param string $page The page we are on.
+    //  * @return string The navigation.
+    //  */
+    // public function navigation($manager, $page) {
+    //     $tabs = array();
+    //     $courseid = $manager->get_courseid();
 
     
 
-        if ($manager->can_manage()) {
-            $tabs[] = new tabobject(
-                'report',
-                new moodle_url('/blocks/ab/report.php', array('courseid' => $courseid)),
-                get_string('navreport', 'block_ab')
-            );
+    //     if ($manager->can_manage()) {
+    //         $tabs[] = new tabobject(
+    //             'report',
+    //             new moodle_url('/blocks/ab/report.php', array('courseid' => $courseid)),
+    //             get_string('navreport', 'block_ab')
+    //         );
          
        
        
          
-        }
+    //     }
 
-        // If there is only one page, then that is the page we are on.
-        if (count($tabs) == 1) {
-            return '';
-        }
+    //     // If there is only one page, then that is the page we are on.
+    //     if (count($tabs) == 1) {
+    //         return '';
+    //     }
 
-        return $this->tabtree($tabs, $page);
-    }
+    //     return $this->tabtree($tabs, $page);
+    // }
 
     /**
      * Override render method.
@@ -304,29 +304,29 @@ class block_ab_renderer extends plugin_renderer_base {
      * @param bool $showinfos Show the infos link
      * @return string HTML produced.
      */
-    public function student_links($courseid, $showladder, $showinfos) {
-        $html = '';
-        $links = array();
+    // public function student_links($courseid, $showladder, $showinfos) {
+    //     $html = '';
+    //     $links = array();
 
-        if ($showinfos) {
-            $links[] = html_writer::link(
-                new moodle_url('/blocks/ab/infos.php', array('courseid' => $courseid)),
-                get_string('infos', 'block_ab')
-            );
-        }
-        if ($showladder) {
-            $links[] = html_writer::link(
-                new moodle_url('/blocks/ab/ladder.php', array('courseid' => $courseid)),
-                get_string('viewtheladder', 'block_ab')
-            );
-        }
+    //     if ($showinfos) {
+    //         $links[] = html_writer::link(
+    //             new moodle_url('/blocks/ab/infos.php', array('courseid' => $courseid)),
+    //             get_string('infos', 'block_ab')
+    //         );
+    //     }
+    //     if ($showladder) {
+    //         $links[] = html_writer::link(
+    //             new moodle_url('/blocks/ab/ladder.php', array('courseid' => $courseid)),
+    //             get_string('viewtheladder', 'block_ab')
+    //         );
+    //     }
 
-        if (!empty($links)) {
-            $html = html_writer::tag('p', implode(' - ', $links), array('class' => 'student-links'));
-        }
+    //     if (!empty($links)) {
+    //         $html = html_writer::tag('p', implode(' - ', $links), array('class' => 'student-links'));
+    //     }
 
-        return $html;
-    }
+    //     return $html;
+    // }
 
     /**
      * Returns the progress bar rendered.

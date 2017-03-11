@@ -37,14 +37,14 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
 
-    // Whether or not a user can earn eaberience point.
-    'block/ab:earnab' => array(
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'student' => CAP_ALLOW
-        ),
-    ),
+    // // Whether or not a user can earn eaberience point.
+    // 'block/ab:earnab' => array(
+    //     'captype' => 'read',
+    //     'contextlevel' => CONTEXT_SYSTEM,
+    //     'archetypes' => array(
+    //         'student' => CAP_ALLOW
+    //     ),
+    // ),
 
     // Whether or not the user can add the block on their dashboard.
     // We don't allow anyone to add it, the teacher/manager should add it
