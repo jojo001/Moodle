@@ -1,0 +1,550 @@
+/* COVERS MULTIPLE ZONES */
+body#page-grade-report-allgrader-index {
+	line-height: 1.2em;
+}
+
+.allgradestable {
+	font-size:10px;
+	width:auto;
+	background-color:transparent;
+	border-style:solid;
+	border-width:1px;
+	border-color:#CECECE;
+}
+
+.allgradestable td,.allgradestable th {
+	border-color:#CECECE;
+}
+/*
+.allgradestable th {
+	padding:0px 10px;
+}
+*/
+.allgradestable h1 {
+text-align:center;
+clear:both;
+}
+
+.allgradestable cell {
+	padding-left:5px;
+	padding-right:5px;
+	vertical-align:middle;
+	line-height: 0;
+}
+
+.allgradestable .gradestable th.user,
+.allgradestable .gradestable th.range,
+.allgradestable .flexible th,
+.allgradestable .flexible td,
+.allgradestable .flexible th a,
+.allgradestable .flexible td a,
+.allgradestable .gradestable th.range,
+.allgradestable td {
+	white-space:nowrap;
+}
+
+/***** LEFT ROWS *****/
+.allgradestable th#studentheader {
+	width: 194px;
+	min-width: 194px;
+	text-align: center;
+}
+.allgradestable th#studentheader,
+.allgradestable th#userreport {
+	background-color: #ccffcc;
+}
+
+.allgradestable th#userreport {
+	min-width: 20px;
+	max-width: 20px;
+}
+
+.allgradestable td.userreport {
+	text-align: center;
+}
+
+.allgradestable th.user {
+	width: 154px;
+	min-width: 154px;
+	text-align:left;
+	border-style:solid;
+	border-width:0 0 1px;
+}
+
+.allgradestable th.user a {
+	font-size: 1em;
+	line-height: 3em;
+    vertical-align:bottom;
+    margin-right: 5px;
+}
+
+.allgradestable th.userfield {
+border-style:solid;
+border-width:0 0 1px 1px;
+}
+
+.allgradestable table th.user,
+.allgradestable table td.userfield {
+    text-align:left;
+    vertical-align:middle;
+}
+
+.allgradestable .userpic {
+display:inline;
+margin-right:10px;
+}
+
+.allgradestable th.user img.userpicture {
+border:3px double #cecece;
+vertical-align:top;
+width:2.7em;
+height:2.7em;
+}
+
+.allgradestable th.user img {
+width:20px;
+height:20px;
+}
+
+.allgradestable td.userfield,
+.allgradestable th,
+.allgradestable div.gradeparent,
+.allgradestable .ie6 form,
+.allgradestable td.ajax {
+text-align:left;
+}
+
+.allgradestable .heading_name_row th {
+white-space:nowrap;
+width:2000px;
+}
+
+/*MDL-21088 - IE 7 ignores nowraps on tds or ths so we put a span within it with a nowrap on it*/
+.allgradestable heading_name_row th span {
+    white-space:nowrap;
+}
+
+.allgradestable .usersuspended a:link,
+.allgradestable .usersuspended a:visited {
+    color: #666;
+}
+
+.allgradestable table th.usersuspended img.usersuspendedicon {
+    vertical-align: text-bottom;
+    margin-left: .45em;
+}
+
+.allgradestable th img {
+    vertical-align: text-bottom;
+    padding-bottom: 0;
+}
+
+.allgradestable table tr.odd th.header {
+background-color:#efefef;
+background-image:none;
+border-width:0 0 1px;
+}
+
+.allgradestable table tr.heading th.header {
+border-top:1px solid #cecece;
+}
+
+/***** RIGHT ROWS *****/
+/***** CATEGORYITEMS, COURSEITEMS and ITEMS HEADERS *****/
+
+.allgradestable th.item ,
+.allgradestable th.categoryitem,
+.allgradestable th.courseitem,
+.allgradestable th.useremail,
+.allgradestable th.useridnumber {
+vertical-align:bottom;
+border-style:solid;
+border-width:1px;
+min-width: 16em;
+max-width: 16em;
+line-height: 1.2em;
+text-align: center;
+padding-bottom: 4px;
+padding-top: 4px;
+vertical-align:bottom;
+overflow: hidden;
+}
+
+.catblue {
+	background-color:#F3DFD0;
+}
+
+.catorange {
+	background-color:#D0DBF3;
+}
+
+.allgradestable .catlevel2 {
+background-color:#f9f9f9;
+}
+
+.allgradestable td.cat,
+.allgradestable td.course {
+font-weight:700;
+}
+
+/***** AVERAGE, RANGE and CONTROLS HEADER CELLS *****/
+.allgradestable tr.avg,
+.allgradestable tr.controls,
+.allgradestable td.controls,
+.allgradestable th.controls,
+.allgradestable tr.groupavg,
+.allgradestable tr.range,
+.allgradestable th.range,
+.allgradestable td.range,
+.allgradestable tr.heading th.range {
+height:2em!important;
+white-space:nowrap;
+}
+
+.allgradestable table tr.avg td.cell,
+.allgradestable td.controls,
+.allgradestable td.range,
+.allgradestable th.controls,
+.allgradestable th.range,
+.allgradestable table tr.avg,
+.allgradestable table tr.avg td,
+.allgradestable table tr.avg th {
+background-color:#f3ead8;
+text-align: center;
+font-weight: bold;
+min-width: 16em;
+maxd-width:16em;
+}
+
+.allgradestable table tr.avg,
+.allgradestable table tr.groupavg td,
+.allgradestable table tr.avg td,
+.allgradestable table tr.groupavg th,
+.allgradestable table tr.avg th,
+.allgradestable table tr.controls_row,
+.allgradestable table tr.controls_row th,
+.allgradestable table tr.range_row,
+.allgradestable table tr.range_row th,
+div.right_scroller tr {
+height:2em;
+}
+
+.allgradestable th.controls,
+.allgradestable th.range {
+text-align:right;
+border-style:solid;
+border-width:1px;
+min-width: 16em;
+max-width: 16em;
+}
+.allgradestable div.rangevalues {
+	min-width: 8em;
+	max-width:8em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.allgradestable tr.groupavg td.cell {
+background-color:#efffef;
+font-weight:700;
+color:#006400;
+}
+
+.allgradestable tr.avg td.cell {
+background-color:#efefff;
+font-weight:700;
+color:#00008B;
+}
+
+.allgradestable div.grade_icons {
+	line-height: 0;
+	min-width: 10em;
+	max-width: 10em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.allgradestable .grade_icons { 
+	margin-bottom: .3em;
+	text-align: center;
+	margin-top: .3em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* GRADE CELLS */
+span.gradevalue {
+	min-width: 16em;
+	max-width: 16em;
+	text-align: center;
+}
+
+.allgradestable td input.text {
+	border:1px solid #666;
+	width: 3.5em;
+	margin: 0;
+	height: 1.2em;
+	padding: 0;
+	margin-left: 10px;
+	float: left;
+}
+
+.allgradestable .quickfeedback {
+border:1px dashed #000;
+margin-left: 10px;
+margin-bottom: 0px;
+width: 3.5em;
+height: 1.2em;
+padding: 0;
+float: left;
+}
+
+.allgradestable tr.odd td.cell,
+.allgradestable tr.odd th.cell {
+background-color:#efefef;
+white-space:nowrap;
+}
+
+.allgradestable span.gradepass {
+color:#298721;
+}
+
+.allgradestable span.gradefail {
+color:#890d0d;
+}
+
+.allgradestable .gradeweight {
+color:#461d7c;
+font-weight:700;
+}
+
+.allgradestable td select {
+font-size:100%;
+padding:0;
+}
+
+.allgradestable tr.even td.cell,
+.allgradestable tr.even th.cell {
+	background-color:#fafafa;
+	white-space:nowrap;
+}
+
+.allgradestable tr.even td.overridden {background-color:#F3E4C0;}
+.allgradestable tr.odd td.overridden {background-color:#EFD9A4;}
+
+.allgradestable tr td.ajaxoverridden {background-color:#FFE3A0;}
+.allgradestable tr.odd td.ajaxoverridden {background-color:#FFDA83;}
+
+.allgradestable tr.even td.excluded {
+background-color:#EABFFF;
+}
+
+.allgradestable tr.odd td.excluded {
+background-color:#E5AFFF;
+}
+
+.allgradestable form td.excluded {
+color:red;
+}
+
+.allgradestable tr.controls td.gray,
+.allgradestable tr.heading th.gray,
+.allgradestable tr.range td.gray,
+.allgradestable tr.avg td.gray,
+.allgradestable tr.even td.gray,
+.allgradestable tr.odd td.gray {
+background-color:#dddddd;
+}
+
+.allgradestable .excludedfloater {
+font-weight:700;
+color:red;
+font-size:9px;
+float:left;
+}
+
+.allgradestable td {
+/*text-align:right;*/
+border-style:solid;
+border-width:0 1px 1px 0;
+}
+
+.allgradestable td.grade {
+	text-align: center;
+}
+
+.allgradestable td.average,
+.allgradestable td.controls,
+.allgradestable td.range,
+.allgradestable td.grade {
+	min-width: 16em;
+	max-width: 16em;
+	text-align: center;
+}
+
+
+/**** SUBMIT *****/
+.allgradestable input.submit {
+margin: auto;
+align: center;
+clear: both;
+}
+
+.allgradestable div.submit {
+margin-top:4px;
+text-align:center;
+clear: both;
+}
+
+/***** QUICK EDIT, WE DON'T HAVE *****/
+.allgradestable table#quick_edit td.fullname {
+border-left:0;
+padding-left:5px;
+}
+
+.allgradestable table#quick_edit td.picture {
+border-right:0;
+}
+
+.allgradestable table#quick_edit td.finalgrade input {
+width:3em;
+}
+
+.allgradestable a.quickedit {
+line-height:1em;
+display:block;
+float:right;
+clear:none;
+font-size:9px;
+background-color:transparent;
+margin:.1em 0 0;
+}
+
+.allgradestable a.quickedit2 {
+display:block;
+float:right;
+clear:none;
+background-color:transparent;
+margin:1.3em 0 0;
+}
+
+.allgradestable table#quick_edit {
+border:1px solid #cecece;
+margin:0 auto;
+}
+
+.allgradestable table#quick_edit td {
+vertical-align:middle;
+border:1px solid #cecece;
+text-align:left;
+margin:0;
+padding:5px;
+}
+
+.allgradestable table#quick_edit td img {
+border:3px double #cecece;
+vertical-align:middle;
+padding:0;
+}
+
+/***** DON'T KNOW WHAT THESE DO *****/
+.allgradestable .gradeparent {
+    overflow:auto;
+}
+
+.allgradestable input.center {
+margin:10px auto 0;
+}
+
+.allgradestable .lefttbody {
+width:auto;
+vertical-align:middle;
+}
+
+.allgradestable th.category.header.catlevel1 {
+vertical-align:top;
+border-style:solid;
+border-width:1px 1px 0 0;
+}
+
+.allgradestable #siteconfiglink {
+text-align:right;
+}
+
+.allgradestable .datesubmitted {
+font-size:.7em;
+}
+
+.allgradestable span.inclusion-links {
+margin:0 5px 0 10px;
+}
+
+.allgradestable table td.topleft {
+border-bottom:0;
+}
+
+.allgradestable td.topleft {
+background-color:#fff;
+}
+
+div.gradertoggle {
+display:inline;
+margin-left:20px;
+}
+.allgradestable table#participants th {
+vertical-align:top;
+width:auto;
+}
+
+.allgradestable td.vmarked,
+.allgradestable tr.odd td.vmarked,
+.allgradestable td.vmarked,
+.allgradestable tr.odd td.vmarked,
+.allgradestable tr.even td.vmarked {
+background-color:#fc3;
+}
+
+.allgradestable td.hmarked,
+.allgradestable tr.odd td.hmarked,
+.allgradestable td.hmarked,
+.allgradestable tr.odd td.hmarked,
+.allgradestable tr.even td.hmarked {
+background-color:#ff9;
+}
+
+.allgradestable td.hmarked.vmarked,
+.allgradestable tr.odd td.hmarked.vmarked,
+.allgradestable td.hmarked.vmarked,
+.allgradestable tr.even td.hmarked.vmarked,
+.allgradestable tr.odd td.hmarked.vmarked {
+background-color:#fc9;
+}
+
+.allgradestable th.category {
+vertical-align:top;
+border-style:solid;
+border-width:1px 1px 0;
+}
+
+/* RTL support (Basic)
+   TODO: Switch activities header and grades to RTL too
+*/
+
+/***** RTL *****/
+.dir-rtl .allgradestable td.userfield,
+.dir-rtl .allgradestable th,
+.allgradestable.dir-rtl  div.gradeparent,
+.allgradestable.dir-rtl  .ie6 form,
+.dir-rtl .allgradestable td.ajax {
+text-align:right;
+}
+
+.dir-rtl .allgradestable th img.sorticon { margin-left: 0; margin-right: .3em; }
+
+.dir-rtl .allgradestable .quickfeedback { margin-left: 0; margin-right: 10px;}
+
+.dir-rtl .allgradestable .cell {height: 10px;}
+.dir-rtl .allgradestable .userpicture {margin: 0; border-radius:10px;}
+.dir-rtl#page-grade-report-allgrader-index .gradeparent {direction: ltr;}
+.allgradestable th.user {text-align: right;direction: rtl;}
+.dir-rtl [id="all-user-grades:scroller:fxcol"] {float:right !important;}
