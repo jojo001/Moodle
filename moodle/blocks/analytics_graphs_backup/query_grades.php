@@ -28,34 +28,25 @@ require_capability('block/analytics_graphs:viewpages', $context);
 
 list($insql, $inparams) = $DB->get_in_or_equal($formdata);
 
-// $sql = "SELECT itemid + (userid*1000000) AS id, itemid, userid, usr.firstname,
-//         usr.lastname, usr.email, rawgrade/(rawgrademax-rawgrademin) AS grade
-//             FROM {grade_grades}
-//             LEFT JOIN {user} usr ON usr.id = userid
-//             WHERE itemid $insql AND rawgrade IS NOT NULL
-//             ORDER BY id";
-
-
-$sql = "SELECT itemid + (userid*1000000) AS id, itemid, 
- rawgrade/(rawgrademax-rawgrademin) AS grade
+$sql = "SELECT itemid + (userid*1000000) AS id, itemid, userid, usr.firstname,
+        usr.lastname, usr.email, rawgrade/(rawgrademax-rawgrademin) AS grade
             FROM {grade_grades}
             LEFT JOIN {user} usr ON usr.id = userid
             WHERE itemid $insql AND rawgrade IS NOT NULL
             ORDER BY id";
 
-
 $result = $DB->get_records_sql($sql, $inparams);
 $taskgrades = new stdClass();
 foreach ($result as $id => $taskattrs) {
-    $itemid = $taskattrs->itemid; //each activities
+    $itemid = $taskattrs->itemid;
     $record = new stdClass();
-    // $record->userid = $taskattrs->userid;
-   $record->grade = floatval($taskattrs->grade);
-    // $record->email = $taskattrs->email;
-    // $record->name = $taskattrs->firstname . " " . $taskattrs->lastname;
-    // if (!property_exists($taskgrades, $itemid)) {
-    //     $taskgrades->{$itemid} = array();
-    // }
+    $record->userid = $taskattrs->userid;
+    $record->grade = floatval($taskattrs->grade);
+    $record->email = $taskattrs->email;
+    $record->name = $taskattrs->firstname . " " . $taskattrs->lastname;
+    if (!property_exists($taskgrades, $itemid)) {
+        $taskgrades->{$itemid} = array();
+    }
     $taskgrades->{$itemid}[] = $record;
 }
 

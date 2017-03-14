@@ -52,8 +52,8 @@
                 group.numberoflatesubmissions = [];
                 group.numberofnosubmissions = [];
 
-               // group.submission_ratio = [];
-             //   group.in_time_ratio = [];
+                group.submission_ratio = [];
+                group.in_time_ratio = [];
             });
             console.log(geral);
 
@@ -137,18 +137,18 @@
 
                     var time = new Date().getTime();
 
-                    // group.submission_ratio[index] = parseFloat(parseFloat((group.numberofintimesubmissions[index] +
-                    //     group.numberoflatesubmissions[index]) /
-                    //     (group.numberofintimesubmissions[index] + group.numberoflatesubmissions[index] +    
-                    //     group.numberofnosubmissions[index])).toFixed(2));
+                    group.submission_ratio[index] = parseFloat(parseFloat((group.numberofintimesubmissions[index] +
+                        group.numberoflatesubmissions[index]) /
+                        (group.numberofintimesubmissions[index] + group.numberoflatesubmissions[index] +    
+                        group.numberofnosubmissions[index])).toFixed(2));
 
-                    // if(group.duedate[index] == 0  || group.duedate[index] > time){
-                    //     group.in_time_ratio[index] = 1;
-                    // }else{
-                    //     group.in_time_ratio[index] = parseFloat(parseFloat(group.numberofintimesubmissions[index] /
-                    //         (group.numberofintimesubmissions[index] + group.numberoflatesubmissions[index] +
-                    //         group.numberofnosubmissions[index])).toFixed(2));
-                    // }
+                    if(group.duedate[index] == 0  || group.duedate[index] > time){
+                        group.in_time_ratio[index] = 1;
+                    }else{
+                        group.in_time_ratio[index] = parseFloat(parseFloat(group.numberofintimesubmissions[index] /
+                            (group.numberofintimesubmissions[index] + group.numberoflatesubmissions[index] +
+                            group.numberofnosubmissions[index])).toFixed(2));
+                    }
                 });
             });
             var course = '<?php echo $course; ?>';
@@ -273,43 +273,43 @@
                             $("#container").highcharts().series[0].setData(value.numberofintimesubmissions);
                             $("#container").highcharts().series[1].setData(value.numberoflatesubmissions);
                             $("#container").highcharts().series[2].setData(value.numberofnosubmissions);
-                           // $("#container").highcharts().series[3].setData(value.submission_ratio);
-                            //$("#container").highcharts().series[4].setData(value.in_time_ratio);
+                            $("#container").highcharts().series[3].setData(value.submission_ratio);
+                            $("#container").highcharts().series[4].setData(value.in_time_ratio);
                         }
                     });
                 }else{
                     var numberofintimesubmissions = [];
                     var numberoflatesubmissions = [];
                     var numberofnosubmissions = [];
-                  //  var submission_ratio = [];
+                    var submission_ratio = [];
                     var in_time_ratio = [];
                     $.each(geral, function(index, value){
 
                         var time = new Date().getTime();
-                        // var submission_ratio_value = parseFloat(parseFloat((value.numberofintimesubmissions +
-                        //     value.numberoflatesubmissions) /
-                        //     (value.numberofintimesubmissions + value.numberoflatesubmissions +
-                        //     value.numberofnosubmissions)).toFixed(2));
+                        var submission_ratio_value = parseFloat(parseFloat((value.numberofintimesubmissions +
+                            value.numberoflatesubmissions) /
+                            (value.numberofintimesubmissions + value.numberoflatesubmissions +
+                            value.numberofnosubmissions)).toFixed(2));
 
-                        // if(value.duedate == 0 || value.duedate > time){
-                        //     var in_time_ratio_value = 1;
-                        // }else{
-                        //     var in_time_ratio_value = parseFloat(parseFloat(value.numberofintimesubmissions /
-                        //         (value.numberofintimesubmissions + value.numberoflatesubmissions +
-                        //         value.numberofnosubmissions)).toFixed(2));
-                        // }
+                        if(value.duedate == 0 || value.duedate > time){
+                            var in_time_ratio_value = 1;
+                        }else{
+                            var in_time_ratio_value = parseFloat(parseFloat(value.numberofintimesubmissions /
+                                (value.numberofintimesubmissions + value.numberoflatesubmissions +
+                                value.numberofnosubmissions)).toFixed(2));
+                        }
                         numberofintimesubmissions.push(value.numberofintimesubmissions);
                         numberoflatesubmissions.push(value.numberoflatesubmissions);
                         numberofnosubmissions.push(value.numberofnosubmissions);
-                     //   submission_ratio.push(submission_ratio_value);
-                      //  in_time_ratio.push(in_time_ratio_value);
+                        submission_ratio.push(submission_ratio_value);
+                        in_time_ratio.push(in_time_ratio_value);
                     });
                     //update series data
                     $("#container").highcharts().series[0].setData(numberofintimesubmissions);
                     $("#container").highcharts().series[1].setData(numberoflatesubmissions);
                     $("#container").highcharts().series[2].setData(numberofnosubmissions);
-                  //  $("#container").highcharts().series[3].setData(submission_ratio);
-                   // $("#container").highcharts().series[4].setData(in_time_ratio);
+                    $("#container").highcharts().series[3].setData(submission_ratio);
+                    $("#container").highcharts().series[4].setData(in_time_ratio);
                 }
             });
         </script>

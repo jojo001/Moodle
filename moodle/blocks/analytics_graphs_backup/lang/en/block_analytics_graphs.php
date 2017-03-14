@@ -17,13 +17,14 @@
 
 
 $string['analytics_graphs:addinstance'] = 'Add a new AG block';
+$string['analytics_graphs:bemonitored'] = 'User is monitored in the course';
 $string['analytics_graphs:myaddinstance'] = 'Add a new AG block to the My Moodle page';
 $string['analytics_graphs:viewpages'] = 'View graphs';
 $string['pluginname'] = 'Analytics Graphs';
 $string['analytics_graphs'] = 'Analytics Graphs';
 
 $string['access'] = 'Access';
-// $string['access_to_contents'] = 'Content accesses';
+$string['access_to_contents'] = 'Content accesses';
 $string['all_groups'] = 'Show all groups';
 $string['begin_date'] = 'Begin date';
 $string['contents'] = 'Contents';
@@ -35,11 +36,10 @@ $string['event_view_graph'] = 'LA - View graph';
 $string['event_send_email'] = 'LA - Send email';
 $string['graphs'] = 'Graphs';
 $string['grades_chart'] = 'Grades chart';
-// $string['grades_distribution'] = "Grade distribution";
-$string['grades_titlehead'] = "Grades";
-
+$string['grades_distribution'] = "Assessment distribution";
 $string['grades_mail_dialog_title'] = "Students with grades smaller than or equal to";
-
+$string['hits'] = 'Course hits';
+$string['hits_distribution'] = 'Hits distribution';
 $string['in_time_ratio'] = 'On time ration';
 $string['in_time_submission'] = 'In time submission';
 $string['late_submission'] = 'Late submission';
@@ -69,8 +69,8 @@ $string['student_information'] = 'Information';
 $string['students'] = 'students';
 $string['subject'] = 'Subject';
 $string['submissions'] = 'Submissions';
-//$string['submissions_assign'] = 'Assignment submissions';
-$string['grade_report'] = 'Grade Report';
+$string['submissions_assign'] = 'Assignment submissions';
+$string['submissions_hotpot'] = 'Hotpot submissions';
 $string['submissions_quiz'] = 'Quiz submissions';
 $string['submission_ratio'] = 'Submission ratio';
 $string['title_access'] = 'Distribution of access to contents (resources, urls and pages)';
@@ -92,11 +92,11 @@ $string['task_list'] = "Assessment list";
 $string['grades_chart_no_data'] = "Use the buttons below to toggle the tasks displayed on the chart";
 $string['task_name'] = "Assessments";
 $string['grades'] = "Grades";
-//$string['total_grades'] = "Number of grades";
-//$string['lowest_grade'] = "Lowest grade";
-//$string['largest_grade'] = "Highest grade";
-//$string['tooltip_grade_achievement'] = "with grades inferior or equal to";
-//$string['add_task'] = "Add assessment to chart";
+$string['total_grades'] = "Number of grades";
+$string['lowest_grade'] = "Lowest grade";
+$string['largest_grade'] = "Highest grade";
+$string['tooltip_grade_achievement'] = "with grades inferior or equal to";
+$string['add_task'] = "Add assessment to chart";
 $string['remove_task'] = "Remove assessment from chart";
 $string['no_student_task'] = "This assessment does not have students in the selected group";
 $string['add_all'] = "Add all";

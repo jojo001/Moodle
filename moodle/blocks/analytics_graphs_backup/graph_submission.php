@@ -302,7 +302,7 @@ class graph_submission {
                         name: "' . get_string("in_time_submission", "block_analytics_graphs") . '",
                         type: "column",
                         data: [';
-        $arrlength = count($arrayofassignments);                  //RED
+        $arrlength = count($arrayofassignments);
         for ($x = 0; $x < $arrlength; $x++) {
             $chart .= $arrayofintimesubmissions[$x];
             $chart .= ',';
@@ -316,9 +316,7 @@ class graph_submission {
                         name: "' . get_string("late_submission", "block_analytics_graphs") . '",
                         type: "column",
                         data: [';
-
-
-        $arrlength = count($arrayofassignments);                  //BLUE AND BLACK
+        $arrlength = count($arrayofassignments);
         for ($x = 0; $x < $arrlength; $x++) {
             $chart .= $arrayoflatesubmissions[$x];
             $chart .= ',';
@@ -333,9 +331,7 @@ class graph_submission {
                         type: "column",
                         color: "#FF1111", //cor
                         data: [';
-
-                        
-        $arrlength = count($arrayofassignments);               
+        $arrlength = count($arrayofassignments);
         for ($x = 0; $x < $arrlength; $x++) {
             $chart .= $arrayofnosubmissions[$x];
             $chart .= ',';
@@ -351,9 +347,6 @@ class graph_submission {
                         lineWidth: 2,
                         lineColor: Highcharts.getOptions().colors[2],
                         data: [';
-
-
-
         $arrlength = count($arrayofassignments);
         for ($x = 0; $x < $arrlength; $x++) {
             $chart .= sprintf("%.2f", ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x]) /
@@ -394,12 +387,12 @@ class graph_submission {
                 ]
             }';
 
-        // $event = \block_analytics_graphs\event\block_analytics_graphs_event_view_graph::create(array(
-        //     'objectid' => $this->course,
-        //     'context' => $this->context,
-        //     'other' => "assign.php",
-        // ));
-        // $event->trigger();
+        $event = \block_analytics_graphs\event\block_analytics_graphs_event_view_graph::create(array(
+            'objectid' => $this->course,
+            'context' => $this->context,
+            'other' => "assign.php",
+        ));
+        $event->trigger();
 
         return $chart;
     }

@@ -20,7 +20,7 @@ function xmldb_block_analytics_graphs_upgrade($oldversion, $block) {
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
-    if ($oldversion < 2015042003) {
+    if ($oldversion < 2017022300) {
                 // Define table block_analytics_graphs_msg to be created.
         $table = new xmldb_table('block_analytics_graphs_msg');
 
@@ -59,7 +59,7 @@ function xmldb_block_analytics_graphs_upgrade($oldversion, $block) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-    } else if ($oldversion < 2015051302) {
+    } else if ($oldversion < 2017022300) {
         $table = new xmldb_table('block_analytics_graphs_msg');
 
         // Define field courseid to be added to block_analytics_graphs_msg.
@@ -83,5 +83,5 @@ function xmldb_block_analytics_graphs_upgrade($oldversion, $block) {
         }
     }
     // Analytics_graphs savepoint reached.
-    upgrade_block_savepoint(true, 2015092901, 'analytics_graphs');
+    upgrade_block_savepoint(true, 2017022300, 'analytics_graphs');
 }
