@@ -19,12 +19,12 @@ function block_analytics_graphs_subtract_student_arrays($estudantes, $acessaram)
     $encontrou = array();
     foreach ($estudantes as $estudante) {
         $encontrou = false;
-        // foreach ($acessaram as $acessou) {
-        //     if ($estudante['userid'] == $acessou ['userid']) {
-        //         $encontrou = true;
-        //         break;
-        //     }
-        // }
+        foreach ($acessaram as $acessou) {
+            if ($estudante['userid'] == $acessou ['userid']) {
+                $encontrou = true;
+                break;
+            }
+        }
         if (!$encontrou) {
             $resultado[] = $estudante;
         }
@@ -65,18 +65,18 @@ function block_analytics_graphs_get_students($course) {
 }
 
 
-// function block_analytics_graphs_get_teachers($course) {
-//     $teachers = array();
-//     $context = context_course::instance($course);
-//     $allteachers = get_enrolled_users($context, 'block/analytics_graphs:viewpages', 0,
-//                     'u.id, u.firstname, u.lastname, u.email, u.suspended', 'firstname, lastname');
-//     foreach ($allteachers as $teacher) {
-//         if ($teacher->suspended == 0) {
-//             $teachers[] = $teacher;
-//         }
-//     }
-//     return($teachers);
-// }
+function block_analytics_graphs_get_teachers($course) {
+    $teachers = array();
+    $context = context_course::instance($course);
+    $allteachers = get_enrolled_users($context, 'block/analytics_graphs:viewpages', 0,
+                    'u.id, u.firstname, u.lastname, u.email, u.suspended', 'firstname, lastname');
+    foreach ($allteachers as $teacher) {
+        if ($teacher->suspended == 0) {
+            $teachers[] = $teacher;
+        }
+    }
+    return($teachers);
+}
 
 
 // function block_analytics_graphs_get_resource_url_access($course, $estudantes, $legacy) {

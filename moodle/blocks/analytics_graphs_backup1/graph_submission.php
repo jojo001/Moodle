@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-//arrayofintimesubmissions
+
 
 class graph_submission {
 
@@ -152,7 +152,7 @@ class graph_submission {
             }
         }
 
-         // Finishing of last access.
+        // Finishing of last access.
         $this->statistics[$counter]['numberofintimesubmissions'] = $numberofintimesubmissions;
         $this->statistics[$counter]['numberoflatesubmissions'] = $numberoflatesubmissions;
         $this->statistics[$counter]['numberofnosubmissions'] = $numberofstudents - $numberofintimesubmissions -
@@ -160,17 +160,14 @@ class graph_submission {
         if ($this->statistics[$counter]['numberofnosubmissions'] > 0) {
             if ($this->statistics[$counter]['numberofnosubmissions'] == $numberofstudents) {
                 $this->statistics[$counter]['no_submissions'] = $arrayofstudents;
-            } 
-            else if ($numberoflatesubmissions == 0) {
+            } else if ($numberoflatesubmissions == 0) {
                 $this->statistics[$counter]['no_submissions'] =
                     block_analytics_graphs_subtract_student_arrays($arrayofstudents,
                     $this->statistics[$counter]['in_time_submissions']);
-
-
-            // } else if ($numberofintimesubmissions == 0) {
-            //     $this->statistics[$counter]['no_submissions'] =
-            //         block_analytics_graphs_subtract_student_arrays($arrayofstudents,
-            //         $this->statistics[$counter]['latesubmissions']);
+            } else if ($numberofintimesubmissions == 0) {
+                $this->statistics[$counter]['no_submissions'] =
+                    block_analytics_graphs_subtract_student_arrays($arrayofstudents,
+                    $this->statistics[$counter]['latesubmissions']);
             } else {
                 $this->statistics[$counter]['no_submissions'] =
                     block_analytics_graphs_subtract_student_arrays(
@@ -180,14 +177,13 @@ class graph_submission {
             }
         }
 
-
         foreach ($this->statistics as $tuple) {
             $arrayofassignments[] = $tuple['assign'];
-         //   $arrayofintimesubmissions[] = $tuple['numberofintimesubmissions'];
-            //$arrayoflatesubmissions[] = $tuple['numberoflatesubmissions'];
+            $arrayofintimesubmissions[] = $tuple['numberofintimesubmissions'];
+            $arrayoflatesubmissions[] = $tuple['numberoflatesubmissions'];
             $arrayofnosubmissions[] = $tuple['numberofnosubmissions'];
             $arrayofduedates[] = $tuple['duedate'];
-           // $arrayofcutoffdates[] = $tuple['cutoffdate']; // For future use.
+            $arrayofcutoffdates[] = $tuple['cutoffdate']; // For future use.
         }
         $this->statistics = json_encode($this->statistics);
 
@@ -205,7 +201,7 @@ class graph_submission {
                              get_string("begin_date", "block_analytics_graphs") . ': ' .
                              userdate($this->startdate, get_string("strftimerecentfull")) . '",
                 },
-                legend: {                                       
+                legend: {
                     layout: "vertical",
                     align: "right",
                     verticalAlign: "top",
@@ -222,7 +218,7 @@ class graph_submission {
                 xAxis: [
                     {
                         categories: [';
-        $arrlength = count($arrayofassignments);        //x axis quiz
+        $arrlength = count($arrayofassignments);
         for ($x = 0; $x < $arrlength; $x++) {
             $chart .= '"<b>';
             $chart .= substr($arrayofassignments[$x], 0, 35);
@@ -239,9 +235,33 @@ class graph_submission {
                     }
                 ],
                 yAxis: [
-                    
-                     { // Secondary yAxis
-                        
+                    { // Primary yAxis
+                        max: 1,
+                        min: 0,
+                        tickInterval: 0.25,
+                        labels: {
+                            format: "{value}",
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        title: {
+                            text: "' . get_string("ratio", "block_analytics_graphs") . '",
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        min: 0,
+                        ceiling: ' . json_encode($numberofstudents) . ',
+                        tickInterval: ' . json_encode($numberofstudents / 4) . ',
+                        opposite: true,
+                        labels: {
+                            format: "{value}",
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
                         title: {
                             text: "' . get_string("number_of_students", "block_analytics_graphs") . '",
                             style: {
@@ -278,45 +298,37 @@ class graph_submission {
                 },
                 series: [
                     {
-                        
-                      
+                        yAxis: 1,
+                        name: "' . get_string("in_time_submission", "block_analytics_graphs") . '",
+                        type: "column",
+                        data: [';
+        $arrlength = count($arrayofassignments);                  //RED
+        for ($x = 0; $x < $arrlength; $x++) {
+            $chart .= $arrayofintimesubmissions[$x];
+            $chart .= ',';
+        }
+        $chart .= '],
+                        tooltip: {
+                            valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
+                        }
+                    }, {
+                        yAxis: 1,
+                        name: "' . get_string("late_submission", "block_analytics_graphs") . '",
+                        type: "column",
                         data: [';
 
 
-                    //        series: [          //repeat
-                    // {
-                    //     // yAxis: 1,
-                    // //    name: "' . get_string("in_time_submission", "block_analytics_graphs") . '",
-                    //    // type: "column",
-                    //     //data: [';
-
-       // $arrlength = count($arrayofassignments);                  //RED
-        // for ($x = 0; $x < $arrlength; $x++) {
-        //    // $chart .= $arrayofintimesubmissions[$x];
-        //     $chart .= ',';
-        // }
+        $arrlength = count($arrayofassignments);                  //BLUE AND BLACK
+        for ($x = 0; $x < $arrlength; $x++) {
+            $chart .= $arrayoflatesubmissions[$x];
+            $chart .= ',';
+        }
         $chart .= '],
-                        
-                           valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
-                      
+                        tooltip: {
+                            valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
+                        }
                     }, {
-                      //  yAxis: 1,
-                      //  name: "' . get_string("late_submission", "block_analytics_graphs") . '",
-                     //   type: "column",
-                     //   data: [';
-
-
-        // $arrlength = count($arrayofassignments);                  //BLUE AND BLACK
-        // for ($x = 0; $x < $arrlength; $x++) {
-        //     //$chart .= $arrayoflatesubmissions[$x];
-        //     $chart .= ',';
-        // }
-        $chart .= '],
-                        // tooltip: {
-                        //     valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
-                        // }
-                    }, {
-                      
+                        yAxis: 1,
                         name: "' . get_string("no_submission", "block_analytics_graphs") . '",
                         type: "column",
                         color: "#FF1111", //cor
@@ -328,51 +340,50 @@ class graph_submission {
             $chart .= $arrayofnosubmissions[$x];
             $chart .= ',';
         }
-        // $chart .= '],
-        //                 // tooltip: {
-        //                 //     valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
-        //                 // }
-        //             }, {
-        //                // yAxis: 0,
-        //                 // name: "' . get_string("submission_ratio", "block_analytics_graphs") . '",
-        //                 // type: "spline",
-        //                 // lineWidth: 2,
-        //                 // lineColor: Highcharts.getOptions().colors[2],
-        //                 // data: [';
+        $chart .= '],
+                        tooltip: {
+                            valueSuffix: " ' . get_string("students", "block_analytics_graphs") . '"
+                        }
+                    }, {
+                        yAxis: 0,
+                        name: "' . get_string("submission_ratio", "block_analytics_graphs") . '",
+                        type: "spline",
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[2],
+                        data: [';
 
 
 
-        // $arrlength = count($arrayofassignments);
-        // for ($x = 0; $x < $arrlength; $x++) {
-        //     $chart .= sprintf("%.2f", ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x]) /
-        //         ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x] + $arrayofnosubmissions[$x]));
-        //     $chart .= ',';
-        // }
-        // $chart .= '],
-        //                 marker: {
-        //                     lineWidth: 2,
-        //                     lineColor: Highcharts.getOptions().colors[2],
-        //                     fillColor: "white"
-        //                 }
-        //             }, {
-        //                 yAxis: 0,
-        //                 name: "' . get_string("in_time_ratio", "block_analytics_graphs") . '",
-        //                 type: "spline",
-        //                 lineWidth: 2,
-        //                 lineColor: Highcharts.getOptions().colors[1],
-        //                 data: [';
-        // $arrlength = count($arrayofassignments);
-        // for ($x = 0; $x < $arrlength; $x++) {
-        //     if ($arrayofduedates[$x] == 0 || $arrayofduedates[$x] > time()) {
-        //         // If no duedate or duedate has not passed.
-        //         $chart .= 1;
-        //     }
-        //     // } else {
-        //     //     $chart .= sprintf("%.2f", $arrayofintimesubmissions[$x] /
-        //     //         ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x] + $arrayofnosubmissions[$x]));
-        //     // }
-        //     $chart .= ',';
-        // }
+        $arrlength = count($arrayofassignments);
+        for ($x = 0; $x < $arrlength; $x++) {
+            $chart .= sprintf("%.2f", ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x]) /
+                ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x] + $arrayofnosubmissions[$x]));
+            $chart .= ',';
+        }
+        $chart .= '],
+                        marker: {
+                            lineWidth: 2,
+                            lineColor: Highcharts.getOptions().colors[2],
+                            fillColor: "white"
+                        }
+                    }, {
+                        yAxis: 0,
+                        name: "' . get_string("in_time_ratio", "block_analytics_graphs") . '",
+                        type: "spline",
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[1],
+                        data: [';
+        $arrlength = count($arrayofassignments);
+        for ($x = 0; $x < $arrlength; $x++) {
+            if ($arrayofduedates[$x] == 0 || $arrayofduedates[$x] > time()) {
+                // If no duedate or duedate has not passed.
+                $chart .= 1;
+            } else {
+                $chart .= sprintf("%.2f", $arrayofintimesubmissions[$x] /
+                    ($arrayofintimesubmissions[$x] + $arrayoflatesubmissions[$x] + $arrayofnosubmissions[$x]));
+            }
+            $chart .= ',';
+        }
         $chart .= '],
                         marker: {
                             lineWidth: 2,

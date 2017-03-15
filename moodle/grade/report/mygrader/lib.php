@@ -1546,15 +1546,17 @@ class grade_report_mygrader extends grade_report_grader {
         foreach ($items as $grade_item) {
         	$col[] = $grade_item->itemname;
         	if ($grade_item->itemtype == 'category' || $grade_item->itemtype == 'course') {
+
+              // if ($grade_item->itemtype == 'category' || $grade_item->itemtype == 'course') {
 	        	$col[] = '';
         	}
         }
 
-		// /// Print names of all the fields for feedback columns
-  //       foreach ($items as $grade_item) {
-  //       	$col[] = $grade_item->itemname;
-  //       }
-  //       $rows[] = $col;
+		/// Print names of all the fields for feedback columns
+        // foreach ($items as $grade_item) {
+        // 	$col[] = $grade_item->itemname;
+        // }
+        $rows[] = $col;
 
         // write out range row
         unset($col);
@@ -1636,13 +1638,13 @@ class grade_report_mygrader extends grade_report_grader {
     	        	$col[] = $gradestr;
             	}
             }
-            // feedback columns
-            foreach ($items as $itemid => $item) {
-                $grade = $this->grades[$userid][$itemid];
-                $type = $item->itemtype;
-       		//	$gradestr = $grade->feedback;
-		   		$col[] = $gradestr;
-            }
+       //      // feedback columns
+       //      foreach ($items as $itemid => $item) {
+       //          $grade = $this->grades[$userid][$itemid];
+       //          $type = $item->itemtype;
+       // 		//	$gradestr = $grade->feedback;
+		   		// $col[] = $gradestr;
+       //      }
             $rows[] = $col;
         }
 
