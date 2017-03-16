@@ -45,10 +45,9 @@ function sendEmail() {
                     if(data){
                         $(".div_nomes").dialog("close");
                         alert("<?php echo get_string('sent_message', 'block_analytics_graphs');?>");
-                    } 
-                    // else {
-                    //     alert("<?php echo get_string('not_sent_message', 'block_analytics_graphs');?>");
-                    // }
+                    } else {
+                        alert("<?php echo get_string('not_sent_message', 'block_analytics_graphs');?>");
+                    }
 
                 });
             });
