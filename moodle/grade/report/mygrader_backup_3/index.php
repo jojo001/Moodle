@@ -85,9 +85,9 @@ $USER->grade_last_report[$course->id] = 'mygrader';
 
 // /// Build editing on/off buttons
 
-if (!isset($USER->gradeediting)) {
-    $USER->gradeediting = array();
-}
+// if (!isset($USER->gradeediting)) {
+//     $USER->gradeediting = array();
+// }
 
 // if (has_capability('moodle/grade:edit', $context)) {
 //     if (!isset($USER->gradeediting[$course->id])) {
@@ -173,10 +173,10 @@ echo $report->group_selector;
 echo '<div class="clearer"></div>';
 // echo $report->get_toggles_html();
 
-// //show warnings if any
-// foreach($warnings as $warning) {
-//     echo $OUTPUT->notification($warning);
-// }
+//show warnings if any
+foreach($warnings as $warning) {
+    echo $OUTPUT->notification($warning);
+}
 
 
 $studentsperpage = $report->get_students_per_page();

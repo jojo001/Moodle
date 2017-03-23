@@ -50,10 +50,7 @@ class block_analytics_graphs extends block_base {
                               target=_blank>" . get_string('grade_report', 'block_analytics_graphs') . "</a>"
 
 
-                              // . "<li> <a href= {$CFG->wwwroot}/progress/overview.php?progressbarid={$progressbar->id}&courseid={$course->id}
-                              // target=_blank>" . get_string('grade_report', 'block_analytics_graphs') . "</a>"
-  // . "<li> <a href= {$CFG->wwwroot}/blocks/progress/overview.php?progressbarid=109&courseid={$course->id}
-  //                             target=_blank>" . get_string('grade_report', 'block_analytics_graphs') . "</a>"                             
+                             
               ;
         } else {
             $this->content->text  = $this->content->text . '<br><br>'.get_string('legacy', 'block_analytics_graphs')

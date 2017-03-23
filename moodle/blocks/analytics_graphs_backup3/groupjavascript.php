@@ -192,16 +192,16 @@
                         createEmailForm(title, value.in_time_submissions, courseid, codename) +
                         "</div>";
                 }
-                // if (typeof value.latesubmissions != 'undefined')
-                // {
-                //     title = <?php echo json_encode($submissionsgraph->get_coursename()); ?> +
-                //         "</h3>" +
-                //         <?php echo json_encode(get_string('late_submission', 'block_analytics_graphs')); ?> +
-                //         " - " +  nome ;
-                //     div += "<div class='div_nomes' id='" + index + "-1'>" +
-                //         createEmailForm(title, value.latesubmissions, courseid, codename) +
-                //         "</div>";
-                // }
+                if (typeof value.latesubmissions != 'undefined')
+                {
+                    title = <?php echo json_encode($submissionsgraph->get_coursename()); ?> +
+                        "</h3>" +
+                        <?php echo json_encode(get_string('late_submission', 'block_analytics_graphs')); ?> +
+                        " - " +  nome ;
+                    div += "<div class='div_nomes' id='" + index + "-1'>" +
+                        createEmailForm(title, value.latesubmissions, courseid, codename) +
+                        "</div>";
+                }
                 if (typeof value.no_submissions != 'undefined')
                 {
                     title = <?php echo json_encode($submissionsgraph->get_coursename()); ?> +
